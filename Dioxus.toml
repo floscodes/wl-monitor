@@ -1,4 +1,9 @@
 [application]
+name = "WL-Monitor"
+id = "com.floscodes.wl-monitor"
+
+[application.ios]
+icon = "assets/icons/Assets.xcassets/AppIcon.appiconset"
 
 [web.app]
 
