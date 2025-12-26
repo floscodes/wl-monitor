@@ -31,8 +31,9 @@ fn App() -> Element {
         document::Link { rel: "stylesheet", href: TAILWIND_CSS }
         document::Link { rel: "stylesheet", href: DX_COMPONENTS }
         document::Link { rel: "stylesheet", href: BASE }
-        div { class: "blur-zone" }
+        div { class: "blur-zone-top" }
         Base {}
+        div { class: "blur-zone-bottom" }
     }
 }
 
