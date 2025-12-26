@@ -1,0 +1,26 @@
+[application]
+name = "WL-Monitor"
+id = "com.floscodes.wl-monitor"
+
+[application.ios]
+icon = "assets/icons/Assets.xcassets/AppIcon.appiconset"
+
+[web.app]
+
+# HTML title tag content
+title = "wl-monitor"
+
+# include `assets` in web platform
+[web.resource]
+
+# Additional CSS style files
+style = []
+
+# Additional JavaScript files
+script = []
+
+[web.resource.dev]
+
+# Javascript code file
+# serve: [dev-server] only
+script = []

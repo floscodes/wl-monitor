@@ -1,0 +1,9 @@
+.train {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.train>img {
+    width: 20%;
+    height: 20%;
+}
