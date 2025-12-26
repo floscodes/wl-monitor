@@ -1,5 +1,5 @@
 use super::*;
-use dioxus::prelude::*;
+use dioxus::prelude::{*, document::EvalError};
 use helpers::*;
 use serde_json::{self, Value};
 
@@ -55,10 +55,23 @@ impl MonitorData {
             }
             Err(e) => return Err(e.into()),
         }
+        let mut empty_strings = true;
+        for monitor_data_set in &monitor_data_sets {
+            if !monitor_data_set.line_name.trim().is_empty()
+                && !monitor_data_set.destination.trim().is_empty()
+            {
+                empty_strings = false;
+                break;
+            }
+        }
+        if !empty_strings {
         Ok(Self {
             data: monitor_data_sets,
             vao,
         })
+        } else {
+            Err(EvalError::Unsupported.into())
+        }
     }
 
     pub async fn update(&self) -> Result<Self> {
