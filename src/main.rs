@@ -27,6 +27,7 @@ fn App() -> Element {
             name: "viewport",
             content: "width=device-width, initial-scale=1.0, viewport-fit=cover",
         }
+        meta { charset: "UTF-8", lang: "de-AT" }
         document::Link { rel: "stylesheet", href: TAILWIND_CSS }
         document::Link { rel: "stylesheet", href: DX_COMPONENTS }
         document::Link { rel: "stylesheet", href: BASE }
@@ -65,8 +66,6 @@ fn Base() -> Element {
             div { class: "search-area",
                 SearchArea { monitor_data, monitor_loading }
             }
-            br {}
-            br {}
             Monitor { monitor_data, monitor_loading }
         }
     }
