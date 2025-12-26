@@ -23,9 +23,14 @@ fn main() {
 #[component]
 fn App() -> Element {
     rsx! {
+        meta {
+            name: "viewport",
+            content: "width=device-width, initial-scale=1.0, viewport-fit=cover",
+        }
         document::Link { rel: "stylesheet", href: TAILWIND_CSS }
         document::Link { rel: "stylesheet", href: DX_COMPONENTS }
         document::Link { rel: "stylesheet", href: BASE }
+        div { class: "blur-zone" }
         Base {}
     }
 }
@@ -56,11 +61,6 @@ fn Base() -> Element {
         div { class: "base",
             if cfg!(feature = "desktop") || cfg!(feature = "web") {
                 TrainIcon {}
-            }
-            if cfg!(feature = "mobile") {
-                br {}
-                br {}
-                br {}
             }
             div { class: "search-area",
                 SearchArea { monitor_data, monitor_loading }
