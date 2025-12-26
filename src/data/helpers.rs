@@ -22,12 +22,8 @@ pub fn trim_station_name(station_name: String) -> String {
         .to_string()
 }
 
-pub fn calculate_countdown(server_time: Option<&str>, departures: Value) -> Vec<String> {
+pub fn calculate_countdown(server_time: &str, departures: Value) -> Vec<String> {
     let mut countdown = vec![];
-
-    match server_time {
-        None => return countdown,
-        Some(server_time) => {
             if let Some(departures) = departures.as_array() {
                 for departure in departures {
                     if let Value::String(estimated_time) = departure["estimatedAt"].clone() {
@@ -48,7 +44,5 @@ pub fn calculate_countdown(server_time: Option<&str>, departures: Value) -> Vec<
                     }
                 }
             }
-        }
-    }
     countdown
 }

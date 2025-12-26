@@ -31,7 +31,9 @@ impl MonitorData {
 
         match request {
             Ok(response) => {
-                let server_time: Option<&str> = response["serverTime"].as_str();
+                let server_time= response["serverTime"]
+                    .as_str()
+                    .ok_or(EvalError::InvalidJs("JSON seems to be not valid".to_string()))?;
                 if let Some(lines) = response["stations"][0]["station"]["lines"].as_array() {
                     for line in lines {
                         if let Some(line_trips) = line["trips"].as_array() {
@@ -41,7 +43,7 @@ impl MonitorData {
                                         line_trip["tripHeadsign"].clone()
                                 {
                                     let departures = line_trip["departures"].clone();
-                                    let countdown = calculate_countdown(server_time, departures);
+                                    let countdown = calculate_countdown(&server_time, departures);
                                     monitor_data_sets.push(MonitorDataSet::from(
                                         line_name,
                                         destination,
@@ -55,23 +57,10 @@ impl MonitorData {
             }
             Err(e) => return Err(e.into()),
         }
-        let mut empty_strings = true;
-        for monitor_data_set in &monitor_data_sets {
-            if !monitor_data_set.line_name.trim().is_empty()
-                && !monitor_data_set.destination.trim().is_empty()
-            {
-                empty_strings = false;
-                break;
-            }
-        }
-        if !empty_strings {
         Ok(Self {
             data: monitor_data_sets,
             vao,
         })
-        } else {
-            Err(EvalError::Unsupported.into())
-        }
     }
 
     pub async fn update(&self) -> Result<Self> {
