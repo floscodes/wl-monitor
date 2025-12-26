@@ -52,7 +52,7 @@ fn Base() -> Element {
                     let new_monitor_data = monitor_data.read().update().await;
                     if let Ok(new_monitor_data) = new_monitor_data {
                         if sleep_time != 11 {
-                            sleep_time += 1;
+                            sleep_time = 11;
                         }
                         if new_monitor_data.data.len() != 0 {
                             monitor_data.set(new_monitor_data);
