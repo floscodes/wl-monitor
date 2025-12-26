@@ -7,7 +7,7 @@ use dioxus::prelude::*;
 pub fn Monitor(monitor_data: Signal<MonitorData>, monitor_loading: Signal<bool>) -> Element {
     if *monitor_loading.read() {
         return rsx! {
-            Spinner {}
+            div { class: "monitor-loading-spinner", Spinner {} }
         };
     }
 

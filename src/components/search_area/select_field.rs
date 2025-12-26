@@ -36,14 +36,12 @@ pub fn SelectField(
                                 let station = station.clone();
                                 rsx! {
                                     div {
+                                        class: "select-field-item",
                                         onclick: move |_| {
                                             let station = station.clone();
                                             spawn(async move {
                                                 station_selected.set(true);
                                                 select_field_visibility.set(String::from("hidden"));
-                                                if *selected_station_name.read() == station.name {
-                                                    return;
-                                                }
                                                 selected_station_name.set(station.name.clone());
                                                 monitor_loading.set(true);
                                                 let station_clone = station.clone();
@@ -53,6 +51,9 @@ pub fn SelectField(
                                                     monitor_loading.set(false);
                                                     let mut cache = cache.write();
                                                     cache.insert(0, station.clone());
+                                                    if cache.len() > 10 {
+                                                        let _ = cache.pop();
+                                                    }
                                                 }
                                             });
                                         },

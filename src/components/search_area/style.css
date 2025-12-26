@@ -10,7 +10,6 @@
     flex-direction: column;
     justify-content: space-between;
     padding: 0.25rem;
-    padding: 8px 12px;
     padding-left: 5%;
     width: 90%;
     margin: 0 auto;
@@ -24,4 +23,9 @@
     gap: 0.25rem;
     transition: background-color 100ms ease-out;
     font-size: 1.2rem;
+}
+
+.select-field-item {
+    margin-top: 1vh;
+    margin-bottom: 1vh;
 }

@@ -1,6 +1,6 @@
 .monitor {
     position: absolute;
-    top: 25%;
+    top: 24%;
     display: flex;
     flex-direction: column;
     width: 95%;
@@ -10,9 +10,15 @@
     z-index: 1;
 }
 
+.monitor-loading-spinner {
+    top: 50%;
+}
+
 .data-element {
     display: flex;
     flex-direction: row;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
 }
 
 .line-element {
