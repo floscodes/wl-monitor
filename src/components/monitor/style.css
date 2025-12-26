@@ -28,6 +28,7 @@
     width: 20vw;
     margin: 5%;
     margin-left: 2%;
+    align-items: center;
 }
 
 .destination-element {
@@ -49,6 +50,7 @@
     -ms-overflow-style: none;
     /* IE, Edge */
     scrollbar-width: none;
+    align-items: center;
 }
 
 .countdown-container::-webkit-scrollbar {
