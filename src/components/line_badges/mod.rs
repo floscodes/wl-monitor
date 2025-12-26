@@ -14,7 +14,7 @@ pub mod underground;
 #[component]
 pub fn CoreBadge(line_name: String, color_class: &'static str) -> Element {
     rsx! {
-        span { class: "pl-1/5 pr-1/5 min-w-11 h-6 text-center rounded-xs text-white {color_class}",
+        div { class: "p-8 h-6 min-w-11 text-center rounded-xs text-white {color_class}",
             "{line_name}"
         }
     }
