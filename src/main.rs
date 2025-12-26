@@ -46,12 +46,20 @@ fn Base() -> Element {
         use_future(move || {
             let mut monitor_data = monitor_data.clone();
             async move {
+                let mut sleep_time: u64 = 11;
                 loop {
-                    sleep(Duration::from_secs(11)).await;
+                    sleep(Duration::from_secs(sleep_time)).await;
                     let new_monitor_data = monitor_data.read().update().await;
                     if let Ok(new_monitor_data) = new_monitor_data {
+                        if sleep_time != 11 {
+                            sleep_time += 1;
+                        }
                         if new_monitor_data.data.len() != 0 {
                             monitor_data.set(new_monitor_data);
+                        }
+                    } else {
+                        if sleep_time != 1 {
+                            sleep_time -= 1;
                         }
                     }
                 }
