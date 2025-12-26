@@ -60,6 +60,7 @@ fn Base() -> Element {
             if cfg!(feature = "mobile") {
                 br {}
                 br {}
+                br {}
             }
             div { class: "search-area",
                 SearchArea { monitor_data, monitor_loading }
