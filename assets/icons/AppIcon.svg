@@ -1,32 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
 
-  <!-- Hintergrund mit iOS-Glanz -->
-  <defs>
-    <radialGradient id="ios-gloss" cx="30%" cy="30%" r="80%">
-      <stop offset="0%" stop-color="oklch(60% 0.141 25.723)" />
-      <stop offset="100%" stop-color="oklch(39.6% 0.141 25.723)" />
-    </radialGradient>
-
-    <!-- Glanzstreifen oben links -->
-    <linearGradient id="ios-highlight" x1="0%" y1="0%" x2="0%" y2="40%">
-      <stop offset="0%" stop-color="white" stop-opacity="0.25"/>
-      <stop offset="100%" stop-color="white" stop-opacity="0"/>
-    </linearGradient>
-  </defs>
-
   <!-- Hintergrund -->
   <rect
     x="0" y="0"
     width="1024" height="1024"
-    rx="220"
-    fill="url(#ios-gloss)" />
-
-  <!-- Glanzstreifen -->
-  <rect
-    x="0" y="0"
-    width="1024" height="400"
-    rx="220"
-    fill="url(#ios-highlight)" />
+    fill="oklch(39.6% 0.141 25.723)" />
 
   <!-- Straßenbahn -->
   <rect x="212" y="240" width="600" height="500" rx="100" fill="white" />
