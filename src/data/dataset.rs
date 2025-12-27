@@ -8,7 +8,7 @@ const MUNIPACITY_NAME: &'static str = "wien";
 #[derive(Debug, Clone, PartialEq)]
 pub struct MonitorData {
     pub data: Vec<MonitorDataSet>,
-    vao: String,
+    pub vao: String,
 }
 
 impl MonitorData {
@@ -61,13 +61,6 @@ impl MonitorData {
             data: monitor_data_sets,
             vao,
         })
-    }
-
-    pub async fn update(&self) -> Result<Self> {
-        match Self::from_vao(self.vao.clone()).await {
-            Ok(updated_monitor_data) => Ok(updated_monitor_data),
-            Err(e) => Err(e.into()),
-        }
     }
 }
 
