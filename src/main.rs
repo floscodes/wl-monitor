@@ -49,7 +49,8 @@ fn Base() -> Element {
                 let mut sleep_time: u64 = 11;
                 loop {
                     sleep(Duration::from_secs(sleep_time)).await;
-                    let new_monitor_data = monitor_data.read().update().await;
+                    let monitor_data_value = monitor_data.read().clone();
+                    let new_monitor_data = monitor_data_value.update().await;
                     if let Ok(new_monitor_data) = new_monitor_data {
                         if sleep_time != 11 {
                             sleep_time = 11;
