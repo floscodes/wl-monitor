@@ -1,3 +1,4 @@
+use super::CloseIcon;
 use super::Input;
 use crate::data::dataset::StationDataSet;
 use anyhow;
@@ -18,6 +19,7 @@ pub fn SearchInput(
     mut cache: Signal<Vec<StationDataSet>>,
     loading_stations: Signal<bool>,
     station_selected: Signal<bool>,
+    clear_visibility: Signal<String>,
 ) -> Element {
     let onfocus = move |_: FocusEvent| {
         let mut cache_write = cache.write();
@@ -27,6 +29,13 @@ pub fn SearchInput(
         *cache_write = remove_double_values_from_vec(&*cache_write);
         stations.set(cache_write.clone());
         select_field_visibility.set(String::from("visible"));
+
+        let input_value = selected_station_name.read().clone();
+        if input_value.len() > 0 {
+            clear_visibility.set(String::from("visible"));
+        } else {
+            clear_visibility.set(String::from("hidden"));
+        }
     };
     let mut cache_clone = cache.clone();
     let mut search_fn = use_action(
@@ -47,6 +56,7 @@ pub fn SearchInput(
     );
     let oninput = move |e: FormEvent| async move {
         let search_string = e.value();
+
         match search_string.len() {
             0 => {
                 stations.set(cache.read().clone());
@@ -73,12 +83,36 @@ pub fn SearchInput(
             .call(search_string.clone(), stations.clone())
             .await;
     };
+
+    let input_element = use_signal(|| None);
     rsx! {
-        Input {
-            placeholder: "Suche Haltestelle...",
-            onfocus,
-            oninput,
-            value: selected_station_name,
+        div { class: "input-wrapper",
+            Input {
+                placeholder: "Suche Haltestelle...",
+                onfocus,
+                onfocusout: move |_: FocusEvent| {
+                    select_field_visibility.set(String::from("hidden"));
+                    clear_visibility.set(String::from("hidden"));
+                },
+                oninput,
+                onmounted: move |e: Event<MountedData>| {
+                    let mut input_element_clone = input_element.clone();
+                    input_element_clone.set(Some(e.data()));
+                },
+                value: selected_station_name,
+            }
+            div {
+                class: "search-input-clear-button",
+                visibility: "{clear_visibility}",
+                onclick: move |_| async move {
+                    selected_station_name.set(String::new());
+                    if let Some(input) = input_element.cloned() {
+                        let _ = input.set_focus(true).await;
+                    }
+                    clear_visibility.set(String::from("hidden"));
+                },
+                CloseIcon {}
+            }
         }
     }
 }

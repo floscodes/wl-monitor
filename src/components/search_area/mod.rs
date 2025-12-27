@@ -1,3 +1,4 @@
+use super::icons::close::CloseIcon;
 use super::input::Input;
 use crate::data::dataset::{MonitorData, StationDataSet};
 use dioxus::prelude::*;
@@ -16,6 +17,7 @@ pub fn SearchArea(monitor_data: Signal<MonitorData>, monitor_loading: Signal<boo
     let cache = use_signal(|| Vec::<StationDataSet>::new());
     let loading_stations = use_signal(|| true);
     let station_selected = use_signal(|| false);
+    let clear_visibility = use_signal(|| String::from("hidden"));
 
     rsx! {
         document::Link { rel: "stylesheet", href: asset!("./style.css") }
@@ -26,6 +28,7 @@ pub fn SearchArea(monitor_data: Signal<MonitorData>, monitor_loading: Signal<boo
             cache,
             loading_stations,
             station_selected,
+            clear_visibility,
         }
         SelectField {
             stations,
@@ -36,6 +39,7 @@ pub fn SearchArea(monitor_data: Signal<MonitorData>, monitor_loading: Signal<boo
             loading_stations,
             station_selected,
             monitor_loading,
+            clear_visibility,
         }
     }
 }

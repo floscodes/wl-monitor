@@ -16,6 +16,7 @@ pub fn SelectField(
     loading_stations: Signal<bool>,
     station_selected: Signal<bool>,
     monitor_loading: Signal<bool>,
+    clear_visibility: Signal<String>,
 ) -> Element {
     let stations_vec = stations.read();
 
@@ -44,6 +45,7 @@ pub fn SelectField(
                                                 select_field_visibility.set(String::from("hidden"));
                                                 selected_station_name.set(station.name.clone());
                                                 monitor_loading.set(true);
+                                                clear_visibility.set(String::from("hidden"));
                                                 let station_clone = station.clone();
                                                 let data = MonitorData::from_vao(station_clone.vao.clone()).await;
                                                 if let Ok(data) = &data {

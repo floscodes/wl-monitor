@@ -20,6 +20,7 @@ pub fn Input(
     oncopy: Option<EventHandler<ClipboardEvent>>,
     oncut: Option<EventHandler<ClipboardEvent>>,
     onpaste: Option<EventHandler<ClipboardEvent>>,
+    onmounted: Option<EventHandler<Event<MountedData>>>,
     #[props(extends=GlobalAttributes)]
     #[props(extends=input)]
     attributes: Vec<Attribute>,
@@ -47,6 +48,7 @@ pub fn Input(
             oncopy: move |e| _ = oncopy.map(|callback| callback(e)),
             oncut: move |e| _ = oncut.map(|callback| callback(e)),
             onpaste: move |e| _ = onpaste.map(|callback| callback(e)),
+            onmounted: move |e| _ = onmounted.map(|callback| callback(e)),
             ..attributes,
             {children}
         }

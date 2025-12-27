@@ -1,3 +1,29 @@
+.input-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    font-weight: 600;
+}
+
+.search-input-clear-button {
+    position: absolute;
+    right: 10%;
+    top: 50%;
+    transform: translateY(-50%);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    z-index: 2;
+}
+
+.search-input-clear-button svg {
+    width: 3rem;
+    height: 3rem;
+}
+
 .select-field-container {
     width: 90%;
     margin: 0 auto;
