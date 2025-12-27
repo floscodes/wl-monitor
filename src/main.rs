@@ -42,13 +42,13 @@ fn Base() -> Element {
     let monitor_data = use_signal(|| MonitorData::new());
     let monitor_loading = use_signal(|| false);
 
-    if !monitor_data.read().is_empty() {
-        use_future(move || {
-            let mut monitor_data = monitor_data.clone();
-            async move {
-                let mut sleep_time: u64 = 12;
-                loop {
-                    sleep(Duration::from_secs(sleep_time)).await;
+    use_future(move || {
+        let mut monitor_data = monitor_data.clone();
+        async move {
+            let mut sleep_time: u64 = 12;
+            loop {
+                sleep(Duration::from_secs(sleep_time)).await;
+                if !monitor_data.read().is_empty() {
                     let monitor_data_value = monitor_data.read().clone();
                     let vao_value = monitor_data_value.vao.clone();
                     let new_monitor_data = MonitorData::from_vao(vao_value).await;
@@ -66,18 +66,27 @@ fn Base() -> Element {
                     }
                 }
             }
-        });
-    }
+        }
+    });
 
+    let monitor_spinner_element = use_signal(|| None);
     rsx! {
         div { class: "base",
             if cfg!(feature = "desktop") || cfg!(feature = "web") {
                 TrainIcon {}
             }
             div { class: "search-area",
-                SearchArea { monitor_data, monitor_loading }
+                SearchArea {
+                    monitor_data,
+                    monitor_loading,
+                    monitor_spinner_element,
+                }
             }
-            Monitor { monitor_data, monitor_loading }
+            Monitor {
+                monitor_data,
+                monitor_loading,
+                monitor_spinner_element,
+            }
         }
     }
 }

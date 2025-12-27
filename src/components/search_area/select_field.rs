@@ -3,8 +3,10 @@ use crate::{
     components::Spinner,
     data::dataset::{MonitorData, StationDataSet},
 };
+use dioxus::events::{ScrollBehavior, ScrollLogicalPosition, ScrollToOptions};
 use dioxus::prelude::*;
 use dioxus_primitives::scroll_area::ScrollDirection;
+use std::rc::Rc;
 
 #[component]
 pub fn SelectField(
@@ -17,6 +19,7 @@ pub fn SelectField(
     station_selected: Signal<bool>,
     monitor_loading: Signal<bool>,
     clear_visibility: Signal<String>,
+    monitor_spinner_element: Signal<Option<Rc<MountedData>>>,
 ) -> Element {
     let stations_vec = stations.read();
 
@@ -40,24 +43,36 @@ pub fn SelectField(
                                         class: "select-field-item",
                                         onclick: move |_| {
                                             let station = station.clone();
-                                            spawn(async move {
-                                                station_selected.set(true);
-                                                select_field_visibility.set(String::from("hidden"));
-                                                selected_station_name.set(station.name.clone());
-                                                monitor_loading.set(true);
-                                                clear_visibility.set(String::from("hidden"));
-                                                let station_clone = station.clone();
-                                                let data = MonitorData::from_vao(station_clone.vao.clone()).await;
-                                                if let Ok(data) = &data {
-                                                    monitor_data.set(data.clone());
-                                                    monitor_loading.set(false);
-                                                    let mut cache = cache.write();
-                                                    cache.insert(0, station.clone());
-                                                    if cache.len() > 5 {
-                                                        let _ = cache.pop();
+                                            async move {
+                                                let station = station.clone();
+                                                spawn(async move {
+                                                    station_selected.set(true);
+                                                    select_field_visibility.set(String::from("hidden"));
+                                                    selected_station_name.set(station.name.clone());
+                                                    monitor_loading.set(true);
+                                                    clear_visibility.set(String::from("hidden"));
+                                                    let station_clone = station.clone();
+                                                    let data = MonitorData::from_vao(station_clone.vao.clone()).await;
+                                                    if let Ok(data) = &data {
+                                                        monitor_data.set(data.clone());
+                                                        monitor_loading.set(false);
+                                                        let mut cache = cache.write();
+                                                        cache.insert(0, station.clone());
+                                                        if cache.len() > 5 {
+                                                            let _ = cache.pop();
+                                                        }
                                                     }
+                                                });
+                                                if let Some(base_element) = monitor_spinner_element.cloned() {
+                                                    let _ = base_element
+                                                        .scroll_to_with_options(ScrollToOptions {
+                                                            behavior: ScrollBehavior::Instant,
+                                                            vertical: ScrollLogicalPosition::Center,
+                                                            horizontal: ScrollLogicalPosition::Center,
+                                                        })
+                                                        .await;
                                                 }
-                                            });
+                                            }
                                         },
                                         "{station.name}"
                                     }

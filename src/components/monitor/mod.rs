@@ -2,12 +2,23 @@ use super::icons::Spinner;
 use super::line_badges::*;
 use crate::data::dataset::MonitorData;
 use dioxus::prelude::*;
+use std::rc::Rc;
 
 #[component]
-pub fn Monitor(monitor_data: Signal<MonitorData>, monitor_loading: Signal<bool>) -> Element {
+pub fn Monitor(
+    monitor_data: Signal<MonitorData>,
+    monitor_loading: Signal<bool>,
+    monitor_spinner_element: Signal<Option<Rc<MountedData>>>,
+) -> Element {
     if *monitor_loading.read() {
         return rsx! {
-            div { class: "monitor-loading-spinner", Spinner {} }
+            div {
+                class: "monitor-loading-spinner",
+                onmounted: move |e| {
+                    monitor_spinner_element.set(Some(e.data()));
+                },
+                Spinner {}
+            }
         };
     }
 
