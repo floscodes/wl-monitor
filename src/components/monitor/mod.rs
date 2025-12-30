@@ -149,7 +149,7 @@ fn create_countdown_times_from_vec(countdowns: Vec<String>) -> Element {
             for countdown in countdowns {
                 if countdown == "0" {
                     div { class: "signal-container",
-                        span { class: "signal", "■   " }
+                        span { class: "signal", "*" }
                     }
                 } else {
                     div { class: "count-container",

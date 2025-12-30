@@ -93,15 +93,15 @@
 .signal {
     position: absolute;
     animation: jump 800ms steps(2) infinite alternate;
-    font-size: 0.6rem;
+    font-size: 1.3rem;
 }
 
 @keyframes jump {
     from {
-        transform: translate(90%, 10%);
+        transform: translate(0%, 0%);
     }
 
     to {
-        transform: translate(10%, 150%);
+        transform: translate(160%, 0%);
     }
 }
