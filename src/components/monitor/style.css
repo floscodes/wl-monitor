@@ -11,7 +11,10 @@
 }
 
 .monitor-loading-spinner {
-    top: 50%;
+    position: absolute;
+    width: 5%;
+    top: 30%;
+    left: 45%;
 }
 
 .data-element {

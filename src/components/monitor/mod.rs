@@ -2,29 +2,19 @@ use super::icons::Spinner;
 use super::line_badges::*;
 use crate::data::dataset::MonitorData;
 use dioxus::prelude::*;
-use std::rc::Rc;
 
 #[component]
-pub fn Monitor(
-    monitor_data: Signal<MonitorData>,
-    monitor_loading: Signal<bool>,
-    monitor_spinner_element: Signal<Option<Rc<MountedData>>>,
-) -> Element {
+pub fn Monitor(monitor_data: Signal<MonitorData>, monitor_loading: Signal<bool>) -> Element {
     if *monitor_loading.read() {
         return rsx! {
-            div {
-                class: "monitor-loading-spinner",
-                onmounted: move |e| {
-                    monitor_spinner_element.set(Some(e.data()));
-                },
-                Spinner {}
-            }
+            div { class: "monitor-loading-spinner", Spinner {} }
         };
     }
 
     let mut data_elements = vec![];
     let mut dark = true;
-    for monitor_data_set in monitor_data.read().data.iter() {
+    let md = monitor_data.read();
+    for monitor_data_set in md.data.iter() {
         let line_name = monitor_data_set.line_name.clone();
         let destination = monitor_data_set.destination.clone();
         let countdowns = monitor_data_set.countdown.clone();

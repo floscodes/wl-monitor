@@ -4,17 +4,12 @@ use crate::data::dataset::{MonitorData, StationDataSet};
 use dioxus::prelude::*;
 use search_input::*;
 use select_field::*;
-use std::rc::Rc;
 
 mod search_input;
 mod select_field;
 
 #[component]
-pub fn SearchArea(
-    monitor_data: Signal<MonitorData>,
-    monitor_loading: Signal<bool>,
-    monitor_spinner_element: Signal<Option<Rc<MountedData>>>,
-) -> Element {
+pub fn SearchArea(monitor_data: Signal<MonitorData>, monitor_loading: Signal<bool>) -> Element {
     let stations: Signal<Vec<StationDataSet>> = use_signal(|| Vec::new());
     let select_field_visibility = use_signal(|| String::from("hidden"));
     let selected_station_name = use_signal(|| String::new());
@@ -44,7 +39,6 @@ pub fn SearchArea(
             station_selected,
             monitor_loading,
             clear_visibility,
-            monitor_spinner_element,
         }
     }
 }

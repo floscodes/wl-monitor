@@ -69,24 +69,12 @@ fn Base() -> Element {
         }
     });
 
-    let monitor_spinner_element = use_signal(|| None);
     rsx! {
         div { class: "base",
-            if cfg!(feature = "desktop") || cfg!(feature = "web") {
-                TrainIcon {}
-            }
             div { class: "search-area",
-                SearchArea {
-                    monitor_data,
-                    monitor_loading,
-                    monitor_spinner_element,
-                }
+                SearchArea { monitor_data, monitor_loading }
             }
-            Monitor {
-                monitor_data,
-                monitor_loading,
-                monitor_spinner_element,
-            }
+            Monitor { monitor_data, monitor_loading }
         }
     }
 }

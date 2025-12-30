@@ -1,9 +1,11 @@
 .train {
     width: 90%;
     margin: 0 auto;
+    z-index: 4;
 }
 
 .train>img {
     width: 20%;
     height: 20%;
+    z-index: 4;
 }

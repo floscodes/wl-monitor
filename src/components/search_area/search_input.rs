@@ -37,6 +37,10 @@ pub fn SearchInput(
             clear_visibility.set(String::from("hidden"));
         }
     };
+    let onfocusout = move |_: FocusEvent| {
+        clear_visibility.set(String::from("hidden"));
+        //select_field_visibility.set(String::from("hidden"));
+    };
     let mut cache_clone = cache.clone();
     let mut search_fn = use_action(
         move |value: String, mut stations: Signal<Vec<StationDataSet>>| async move {
@@ -90,10 +94,7 @@ pub fn SearchInput(
             Input {
                 placeholder: "Suche Haltestelle...",
                 onfocus,
-                onfocusout: move |_: FocusEvent| {
-                    select_field_visibility.set(String::from("hidden"));
-                    clear_visibility.set(String::from("hidden"));
-                },
+                onfocusout,
                 oninput,
                 onmounted: move |e: Event<MountedData>| {
                     let mut input_element_clone = input_element.clone();

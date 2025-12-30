@@ -10,6 +10,7 @@ edition = "2024"
 anyhow = "1.0.100"
 dioxus = { version = "0.7.1", features = ["document", "html"] }
 dioxus-primitives = { git = "https://github.com/DioxusLabs/components", version = "0.0.1", default-features = false }
+log = "0.4.29"
 reqwest = { version = "0.12.24", features = ["json", "rustls-tls"] }
 serde_json = "1.0.145"
 time = "0.3.44"

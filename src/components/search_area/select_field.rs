@@ -3,10 +3,8 @@ use crate::{
     components::Spinner,
     data::dataset::{MonitorData, StationDataSet},
 };
-use dioxus::events::{ScrollBehavior, ScrollLogicalPosition, ScrollToOptions};
 use dioxus::prelude::*;
 use dioxus_primitives::scroll_area::ScrollDirection;
-use std::rc::Rc;
 
 #[component]
 pub fn SelectField(
@@ -19,7 +17,6 @@ pub fn SelectField(
     station_selected: Signal<bool>,
     monitor_loading: Signal<bool>,
     clear_visibility: Signal<String>,
-    monitor_spinner_element: Signal<Option<Rc<MountedData>>>,
 ) -> Element {
     let stations_vec = stations.read();
 
@@ -63,15 +60,6 @@ pub fn SelectField(
                                                         }
                                                     }
                                                 });
-                                                if let Some(base_element) = monitor_spinner_element.cloned() {
-                                                    let _ = base_element
-                                                        .scroll_to_with_options(ScrollToOptions {
-                                                            behavior: ScrollBehavior::Instant,
-                                                            vertical: ScrollLogicalPosition::Center,
-                                                            horizontal: ScrollLogicalPosition::Center,
-                                                        })
-                                                        .await;
-                                                }
                                             }
                                         },
                                         "{station.name}"
