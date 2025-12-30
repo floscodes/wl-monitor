@@ -49,7 +49,8 @@ fn Base() -> Element {
             let mut sleep_time: u64 = 12;
             loop {
                 sleep(Duration::from_secs(sleep_time)).await;
-                if !monitor_data.read().is_empty() {
+
+                if !monitor_data.read().is_empty() && !*monitor_loading.read() {
                     let monitor_data_value = monitor_data.read().clone();
                     let vao_value = monitor_data_value.vao.clone();
                     let new_monitor_data = MonitorData::from_vao(vao_value).await;
