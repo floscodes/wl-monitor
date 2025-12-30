@@ -1,9 +1,11 @@
+use super::components::train::TrainIcon;
 use dioxus::prelude::*;
 
 #[component]
 pub fn WelcomeScreen() -> Element {
     rsx! {
         div { class: "welcome-screen",
+            div { class: "welcome-screen-logo", TrainIcon {} }
             h1 { "Willkommen 👋" }
             p { "Füge diese App zu deinem Home-Bildschirm hinzu:" }
             ul {
