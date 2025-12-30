@@ -4,6 +4,7 @@ use dioxus::prelude::*;
 #[component]
 pub fn WelcomeScreen() -> Element {
     rsx! {
+        document::Link { rel: "stylesheet", href: asset!("./style.css") }
         div { class: "welcome-screen",
             div { class: "welcome-screen-logo", TrainIcon {} }
             h1 { "Willkommen 👋" }
