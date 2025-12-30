@@ -41,6 +41,7 @@ fn App() -> Element {
 fn Base() -> Element {
     let monitor_data = use_signal(|| MonitorData::new());
     let monitor_loading = use_signal(|| false);
+    let select_field_visibility = use_signal(|| String::from("hidden"));
 
     use_future(move || {
         let mut monitor_data = monitor_data.clone();
@@ -72,9 +73,17 @@ fn Base() -> Element {
     rsx! {
         div { class: "base",
             div { class: "search-area",
-                SearchArea { monitor_data, monitor_loading }
+                SearchArea {
+                    monitor_data,
+                    monitor_loading,
+                    select_field_visibility,
+                }
             }
-            Monitor { monitor_data, monitor_loading }
+            Monitor {
+                monitor_data,
+                monitor_loading,
+                select_field_visibility,
+            }
         }
     }
 }

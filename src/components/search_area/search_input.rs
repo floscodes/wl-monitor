@@ -39,7 +39,6 @@ pub fn SearchInput(
     };
     let onfocusout = move |_: FocusEvent| {
         clear_visibility.set(String::from("hidden"));
-        //select_field_visibility.set(String::from("hidden"));
     };
     let mut cache_clone = cache.clone();
     let mut search_fn = use_action(
@@ -88,7 +87,6 @@ pub fn SearchInput(
             .await;
     };
 
-    let input_element = use_signal(|| None);
     rsx! {
         div { class: "input-wrapper",
             Input {
@@ -96,20 +94,13 @@ pub fn SearchInput(
                 onfocus,
                 onfocusout,
                 oninput,
-                onmounted: move |e: Event<MountedData>| {
-                    let mut input_element_clone = input_element.clone();
-                    input_element_clone.set(Some(e.data()));
-                },
                 value: selected_station_name,
             }
             div {
                 class: "search-input-clear-button",
                 visibility: "{clear_visibility}",
-                onclick: move |_| async move {
+                onclick: move |_| {
                     selected_station_name.set(String::new());
-                    if let Some(input) = input_element.cloned() {
-                        let _ = input.set_focus(true).await;
-                    }
                     clear_visibility.set(String::from("hidden"));
                 },
                 CloseIcon {}

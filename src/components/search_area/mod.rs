@@ -9,9 +9,12 @@ mod search_input;
 mod select_field;
 
 #[component]
-pub fn SearchArea(monitor_data: Signal<MonitorData>, monitor_loading: Signal<bool>) -> Element {
+pub fn SearchArea(
+    monitor_data: Signal<MonitorData>,
+    monitor_loading: Signal<bool>,
+    select_field_visibility: Signal<String>,
+) -> Element {
     let stations: Signal<Vec<StationDataSet>> = use_signal(|| Vec::new());
-    let select_field_visibility = use_signal(|| String::from("hidden"));
     let selected_station_name = use_signal(|| String::new());
     let cache = use_signal(|| Vec::<StationDataSet>::new());
     let loading_stations = use_signal(|| true);

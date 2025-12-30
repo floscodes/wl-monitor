@@ -4,7 +4,11 @@ use crate::data::dataset::MonitorData;
 use dioxus::prelude::*;
 
 #[component]
-pub fn Monitor(monitor_data: Signal<MonitorData>, monitor_loading: Signal<bool>) -> Element {
+pub fn Monitor(
+    monitor_data: Signal<MonitorData>,
+    monitor_loading: Signal<bool>,
+    select_field_visibility: Signal<String>,
+) -> Element {
     if *monitor_loading.read() {
         return rsx! {
             div { class: "monitor-loading-spinner", Spinner {} }
@@ -14,6 +18,7 @@ pub fn Monitor(monitor_data: Signal<MonitorData>, monitor_loading: Signal<bool>)
     let mut data_elements = vec![];
     let mut dark = true;
     let md = monitor_data.read();
+
     for monitor_data_set in md.data.iter() {
         let line_name = monitor_data_set.line_name.clone();
         let destination = monitor_data_set.destination.clone();
@@ -43,9 +48,12 @@ pub fn Monitor(monitor_data: Signal<MonitorData>, monitor_loading: Signal<bool>)
             }
         }
     }
+    let onclick = move |_: MouseEvent| {
+        select_field_visibility.set(String::from("hidden"));
+    };
     rsx! {
         document::Link { rel: "stylesheet", href: asset!("./style.css") }
-        div { class: "monitor", {data_elements.iter().map(|element| { element })} }
+        div { class: "monitor", onclick, {data_elements.iter().map(|element| { element })} }
     }
 }
 
