@@ -1,21 +1,38 @@
-use super::components::train::TrainIcon;
+use super::components::icons::safari::Safari;
+use super::components::icons::train::TrainIcon;
 use dioxus::prelude::*;
 
 #[component]
-pub fn WelcomeScreen() -> Element {
+pub fn WelcomeScreen(is_safari: Signal<bool>) -> Element {
     rsx! {
         document::Link { rel: "stylesheet", href: asset!("./style.css") }
         div { class: "welcome-screen",
-            div { class: "welcome-screen-logo", TrainIcon {} }
-            h1 { "Willkommen 👋" }
+            h1 {
+                "Willkommen 👋"
+                div { class: "welcome-screen-logo", TrainIcon {} }
+
+            }
             p { "Füge diese App zu deinem Home-Bildschirm hinzu:" }
             ul {
-                li {
-                    "1.) Klicke unten auf "
-                    Points {}
+                if *is_safari.read() {
+                    li {
+                        "1.) Klicke unten auf "
+                        Points {}
+                    }
+                    li { "2.) Klicke auf „Teilen“" }
+                    li { "3.) Klicke auf „Zum Home-Bildschirm“" }
+                } else {
+                    li {
+                        "1.) Öffne diese Seite in Safari "
+                        div { class: "safari-icon-container", Safari {} }
+                    }
+                    li {
+                        "2.) Klicke dann unten auf "
+                        Points {}
+                    }
+                    li { "3.) Klicke auf „Teilen“" }
+                    li { "4.) Klicke auf „Zum Home-Bildschirm“" }
                 }
-                li { "2.) Klicke auf „Teilen“" }
-                li { "3.) Klicke auf „Zum Home-Bildschirm“" }
             }
         }
     }

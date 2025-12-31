@@ -4,7 +4,7 @@ name = "WL-Monitor"
 [web.app]
 
 # HTML title tag content
-title = "wl-monitor"
+title = "WL-Monitor"
 
 # include `assets` in web platform
 [web.resource]

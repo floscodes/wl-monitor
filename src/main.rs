@@ -17,6 +17,7 @@ mod welcome_screen;
 const TAILWIND_CSS: Asset = asset!("/assets/tailwind.css");
 const DX_COMPONENTS: Asset = asset!("/assets/dx-components-theme.css");
 const BASE: Asset = asset!("/assets/base.css");
+const APP_ICON_180: Asset = asset!("/assets/icons/iOS-icons/Icon-180.png");
 
 fn main() {
     dioxus::launch(App);
@@ -25,11 +26,27 @@ fn main() {
 #[component]
 fn App() -> Element {
     let mut is_installed = use_signal(|| false);
+    let mut is_ios = use_signal(|| false);
+    let mut is_safari = use_signal(|| false);
 
     use_future(move || async move {
-        let check = document::eval("return (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true);").await;
-        if let Ok(check) = check {
+        let js_check = document::eval("return (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true);").await;
+        if let Ok(check) = js_check {
             is_installed.set(check.as_bool().unwrap_or(false));
+        }
+    });
+
+    use_future(move || async move {
+        let js_check = document::eval(r#"return (/iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1));"#).await;
+        if let Ok(check) = js_check {
+            is_ios.set(check.as_bool().unwrap_or(false));
+        }
+    });
+
+    use_future(move || async move {
+        let js_check = document::eval(r#"return (/safari/i.test(navigator.userAgent) && !/crios|fxios|opios|edgios/i.test(navigator.userAgent));"#).await;
+        if let Ok(check) = js_check {
+            is_safari.set(check.as_bool().unwrap_or(false));
         }
     });
 
@@ -39,11 +56,21 @@ fn App() -> Element {
             content: "width=device-width, initial-scale=1.0, viewport-fit=cover",
         }
         meta { charset: "UTF-8", lang: "de-AT" }
+        meta { name: "apple-mobile-web-app-capable", content: "yes" }
+        meta {
+            name: "apple-mobile-web-app-status-bar-style",
+            content: "#49170eff",
+        }
+        meta { name: "theme-color", content: "#8f2e1d" }
+        meta { name: "apple-mobile-web-app-title", content: "WL-Monitor" }
+
         document::Link { rel: "stylesheet", href: TAILWIND_CSS }
         document::Link { rel: "stylesheet", href: DX_COMPONENTS }
         document::Link { rel: "stylesheet", href: BASE }
-        if !*is_installed.read() {
-            WelcomeScreen {}
+        document::Link { rel: "apple-touch-icon", href: APP_ICON_180 }
+
+        if *is_ios.read() && !*is_installed.read() {
+            WelcomeScreen { is_safari }
         } else {
             div { class: "blur-zone-top" }
             Base {}
