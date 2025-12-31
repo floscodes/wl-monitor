@@ -99,7 +99,7 @@ pub fn SearchInput(
             div {
                 class: "search-input-clear-button",
                 visibility: "{clear_visibility}",
-                onclick: move |_| {
+                onpointerdown: move |_| {
                     selected_station_name.set(String::new());
                     clear_visibility.set(String::from("hidden"));
                 },
