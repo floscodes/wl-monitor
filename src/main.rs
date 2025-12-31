@@ -25,7 +25,6 @@ fn main() {
 #[component]
 fn App() -> Element {
     let mut is_installed = use_signal(|| false);
-    let mut is_ios = use_signal(|| false);
 
     use_future(move || async move {
         let check = document::eval("return (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true);").await;
@@ -33,12 +32,7 @@ fn App() -> Element {
             is_installed.set(check.as_bool().unwrap_or(false));
         }
     });
-    use_future(move || async move {
-        let check = document::eval("return (/iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1))").await;
-        if let Ok(check) = check {
-            is_ios.set(check.as_bool().unwrap_or(false));
-        }
-    });
+
     rsx! {
         meta {
             name: "viewport",
@@ -48,7 +42,7 @@ fn App() -> Element {
         document::Link { rel: "stylesheet", href: TAILWIND_CSS }
         document::Link { rel: "stylesheet", href: DX_COMPONENTS }
         document::Link { rel: "stylesheet", href: BASE }
-        if *is_ios.read() && !*is_installed.read() {
+        if !*is_installed.read() {
             WelcomeScreen {}
         } else {
             div { class: "blur-zone-top" }
