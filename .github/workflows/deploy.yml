@@ -21,7 +21,7 @@ jobs:
       uses: dtolnay/rust-toolchain@stable
 
     - name: Install Dioxus CLI
-      run: cargo install dioxus-cli
+      run: curl -sSL https://dioxus.dev/install.sh | bash
 
     - name: Build static site
       run: |
@@ -30,7 +30,7 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
-        path: target/dx/wl-monitor/release/web/public
+        path: /home/runner/work/wl-monitor/wl-monitor/target/dx/wl-monitor/release/web/public
 
   deploy:
     environment:
