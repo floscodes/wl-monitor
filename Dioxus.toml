@@ -6,6 +6,8 @@ name = "WL-Monitor"
 # HTML title tag content
 title = "WL-Monitor"
 
+base_path = "wl-monitor"
+
 # include `assets` in web platform
 [web.resource]
 
