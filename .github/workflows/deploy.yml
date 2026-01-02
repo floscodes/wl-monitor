@@ -30,7 +30,7 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
-        path: target/deploy/public
+        path: target/dx/wl-monitor/release/web/public
 
   deploy:
     environment:
