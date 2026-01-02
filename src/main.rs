@@ -18,6 +18,7 @@ const TAILWIND_CSS: Asset = asset!("/assets/tailwind.css");
 const DX_COMPONENTS: Asset = asset!("/assets/dx-components-theme.css");
 const BASE: Asset = asset!("/assets/base.css");
 const APP_ICON_180: Asset = asset!("/assets/icons/iOS-icons/Icon-180.png");
+const PWA_MANIFEST: Asset = asset!("/manifest.json");
 
 fn main() {
     dioxus::launch(App);
@@ -51,6 +52,7 @@ fn App() -> Element {
     });
 
     rsx! {
+        meta { name: "manifest", content: PWA_MANIFEST }
         meta {
             name: "viewport",
             content: "width=device-width, initial-scale=1.0, viewport-fit=cover",
