@@ -1,5 +1,5 @@
-.safari-icon>img {
-    width: 0.2rem;
-    height: 0.2rem;
+.safari-icon>svg {
+    width: 2.5rem;
+    height: 2.5rem;
     z-index: 4;
 }
