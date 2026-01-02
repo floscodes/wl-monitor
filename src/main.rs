@@ -92,9 +92,8 @@ fn Base() -> Element {
             loop {
                 sleep(Duration::from_secs(sleep_time)).await;
                 if !monitor_data.read().is_empty() && !*monitor_loading.read() {
-                    let monitor_data_value = monitor_data.read().clone();
-                    let vao_value = monitor_data_value.vao.clone();
-                    let new_monitor_data = MonitorData::from_vao(vao_value).await;
+                    let new_monitor_data =
+                        MonitorData::from_vao(monitor_data.read().vao.clone()).await;
                     if let Ok(new_monitor_data) = new_monitor_data {
                         if sleep_time != 12 {
                             sleep_time = 12;
