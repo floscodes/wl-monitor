@@ -52,7 +52,6 @@ fn App() -> Element {
     });
 
     rsx! {
-        meta { name: "manifest", content: PWA_MANIFEST }
         meta {
             name: "viewport",
             content: "width=device-width, initial-scale=1.0, viewport-fit=cover",
@@ -70,6 +69,7 @@ fn App() -> Element {
         document::Link { rel: "stylesheet", href: DX_COMPONENTS }
         document::Link { rel: "stylesheet", href: BASE }
         document::Link { rel: "apple-touch-icon", href: APP_ICON_180 }
+        document::Link { rel: "manifest", href: PWA_MANIFEST }
 
         if *is_ios.read() && !*is_installed.read() {
             WelcomeScreen { is_safari }
