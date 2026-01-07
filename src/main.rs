@@ -13,12 +13,16 @@ use wasmtimer::tokio::sleep;
 mod components;
 pub mod data;
 mod welcome_screen;
+mod manifest_json;
 
 const TAILWIND_CSS: Asset = asset!("/assets/tailwind.css");
 const DX_COMPONENTS: Asset = asset!("/assets/dx-components-theme.css");
 const BASE: Asset = asset!("/assets/base.css");
-const APP_ICON_180: Asset = asset!("/assets/icons/iOS-icons/Icon-180.png");
-const PWA_MANIFEST: Asset = asset!("/manifest.json");
+const APP_ICON_192: Asset = asset!("/assets/icons/Android-icons/Icon-192.png");
+const APP_ICON_512: Asset = asset!("/assets/icons/Android-icons/Icon-512.png");
+
+#[allow(non_upper_case_globals)]
+const APP_ICON_180_iOS: Asset = asset!("/assets/icons/iOS-icons/Icon-180.png");
 
 fn main() {
     dioxus::launch(App);
@@ -68,8 +72,11 @@ fn App() -> Element {
         document::Link { rel: "stylesheet", href: TAILWIND_CSS }
         document::Link { rel: "stylesheet", href: DX_COMPONENTS }
         document::Link { rel: "stylesheet", href: BASE }
-        document::Link { rel: "apple-touch-icon", href: APP_ICON_180 }
-        document::Link { rel: "manifest", href: PWA_MANIFEST }
+        document::Link { rel: "apple-touch-icon", href: APP_ICON_180_iOS }
+        document::Link {
+            rel: "manifest",
+            href: manifest_json::generate_manifest_href(APP_ICON_192, APP_ICON_512),
+        }
 
         if *is_ios.read() && !*is_installed.read() {
             WelcomeScreen { is_safari }
