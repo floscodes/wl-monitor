@@ -1,5 +1,3 @@
-pub mod manifest_json;
-
 use dioxus::prelude::*;
 
 pub async fn is_android_pwa() -> bool {

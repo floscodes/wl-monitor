@@ -1,6 +1,7 @@
 pub mod android;
 pub mod ios;
 pub mod service_worker;
+pub mod manifest_json;
 
 use dioxus::prelude::*;
 
