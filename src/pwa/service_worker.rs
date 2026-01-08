@@ -1,9 +1,6 @@
 use dioxus::prelude::*;
 
-const SW_JS: Asset = asset!(
-    "/assets/js/android_service_worker.js",
-    AssetOptions::builder().with_hash_suffix(false)
-);
+const SW_JS: Asset = asset!("/assets/js/android_service_worker.js");
 
 #[inline]
 pub async fn run() {

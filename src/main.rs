@@ -59,7 +59,6 @@ fn App() -> Element {
         pwa::service_worker::run().await;
     });
 
-
     rsx! {
         meta {
             name: "viewport",
@@ -94,7 +93,7 @@ fn App() -> Element {
             div { class: "blur-zone-bottom" }
         }
     }
-    }
+}
 
 #[component]
 fn Base() -> Element {
