@@ -13,7 +13,7 @@ use wasmtimer::tokio::sleep;
 mod components;
 pub mod data;
 mod welcome_screen;
-mod manifest_json;
+mod pwa;
 
 const TAILWIND_CSS: Asset = asset!("/assets/tailwind.css");
 const DX_COMPONENTS: Asset = asset!("/assets/dx-components-theme.css");
@@ -31,29 +31,34 @@ fn main() {
 #[component]
 fn App() -> Element {
     let mut is_installed = use_signal(|| false);
+    let mut is_android = use_signal(|| false);
     let mut is_ios = use_signal(|| false);
     let mut is_safari = use_signal(|| false);
 
     use_future(move || async move {
-        let js_check = document::eval("return (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true);").await;
-        if let Ok(check) = js_check {
-            is_installed.set(check.as_bool().unwrap_or(false));
-        }
+        is_installed.set(
+            pwa::is_installed().await
+        );
+    });
+    use_future(move || async move {
+        is_ios.set(
+            pwa::ios::is_ios_pwa().await
+        );
+    });
+    use_future(move || async move {
+        is_safari.set(
+            pwa::ios::is_safari().await
+        );
+    });
+    use_future(move || async move {
+        is_android.set(
+            pwa::android::is_android_pwa().await
+        )
+    });
+    use_future(move || async move {
+        pwa::service_worker::run().await;
     });
 
-    use_future(move || async move {
-        let js_check = document::eval(r#"return (/iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1));"#).await;
-        if let Ok(check) = js_check {
-            is_ios.set(check.as_bool().unwrap_or(false));
-        }
-    });
-
-    use_future(move || async move {
-        let js_check = document::eval(r#"return (/safari/i.test(navigator.userAgent) && !/crios|fxios|opios|edgios/i.test(navigator.userAgent));"#).await;
-        if let Ok(check) = js_check {
-            is_safari.set(check.as_bool().unwrap_or(false));
-        }
-    });
 
     rsx! {
         meta {
@@ -61,13 +66,16 @@ fn App() -> Element {
             content: "width=device-width, initial-scale=1.0, viewport-fit=cover",
         }
         meta { charset: "UTF-8", lang: "de-AT" }
-        meta { name: "apple-mobile-web-app-capable", content: "yes" }
-        meta {
-            name: "apple-mobile-web-app-status-bar-style",
-            content: "#49170eff",
+
+        if *is_ios.read() {
+            meta { name: "apple-mobile-web-app-capable", content: "yes" }
+            meta {
+                name: "apple-mobile-web-app-status-bar-style",
+                content: "#49170eff",
+            }
+            meta { name: "theme-color", content: "#8f2e1d" }
+            meta { name: "apple-mobile-web-app-title", content: "WL-Monitor" }
         }
-        meta { name: "theme-color", content: "#8f2e1d" }
-        meta { name: "apple-mobile-web-app-title", content: "WL-Monitor" }
 
         document::Link { rel: "stylesheet", href: TAILWIND_CSS }
         document::Link { rel: "stylesheet", href: DX_COMPONENTS }
@@ -75,7 +83,7 @@ fn App() -> Element {
         document::Link { rel: "apple-touch-icon", href: APP_ICON_180_iOS }
         document::Link {
             rel: "manifest",
-            href: manifest_json::generate_manifest_href(APP_ICON_192, APP_ICON_512),
+            href: pwa::android::manifest_json::generate_manifest_href(APP_ICON_192, APP_ICON_512),
         }
 
         if *is_ios.read() && !*is_installed.read() {
@@ -86,7 +94,7 @@ fn App() -> Element {
             div { class: "blur-zone-bottom" }
         }
     }
-}
+    }
 
 #[component]
 fn Base() -> Element {
