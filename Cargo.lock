@@ -5810,7 +5810,6 @@ name = "wl-monitor"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "base64",
  "dioxus",
  "dioxus-primitives",
  "log",
@@ -5818,6 +5817,7 @@ dependencies = [
  "serde_json",
  "time",
  "tokio",
+ "urlencoding",
  "wasmtimer",
 ]
 

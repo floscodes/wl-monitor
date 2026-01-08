@@ -1,5 +1,5 @@
 use dioxus::prelude::Asset;
-use base64::{engine::general_purpose::URL_SAFE, Engine as _};
+use urlencoding;
 
 
 pub fn generate_manifest_href(icon_192: Asset, icon_512: Asset) -> String {
@@ -20,5 +20,5 @@ pub fn generate_manifest_href(icon_192: Asset, icon_512: Asset) -> String {
         }}
     "##);
 
-    format!("data:application/manifest+json;base64,{}", URL_SAFE.encode(manifest_json))
+    format!("data:application/manifest+json;base64,{}", urlencoding::encode(&manifest_json))
 }
