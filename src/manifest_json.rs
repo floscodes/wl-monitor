@@ -1,8 +1,6 @@
 use dioxus::prelude::Asset;
 use base64::{engine::general_purpose::URL_SAFE, Engine as _};
 
-const PKG_NAME: &str = env!("CARGO_PKG_NAME");
-
 
 pub fn generate_manifest_href(icon_192: Asset, icon_512: Asset) -> String {
     let manifest_json = format!(r##"
@@ -10,7 +8,7 @@ pub fn generate_manifest_href(icon_192: Asset, icon_512: Asset) -> String {
             "name": "Wiener Linien Abfahrtszeiten Monitor",
             "short_name": "WL-Monitor",
             "description": "Alternative departure times monitor for Vienna's public transport services",
-            "start_url": "/{PKG_NAME}",
+            "start_url": "/wl-monitor",
             "display": "standalone",
             "background_color": "#49170eff",
             "theme_color": "#8f2e1d",
