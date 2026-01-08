@@ -82,7 +82,7 @@ fn App() -> Element {
         document::Link { rel: "apple-touch-icon", href: APP_ICON_180_iOS }
         document::Link {
             rel: "manifest",
-            href: pwa::manifest_json::generate_manifest_href(APP_ICON_192, APP_ICON_512),
+            href: pwa::manifest::generate_manifest_href(APP_ICON_192, APP_ICON_512),
         }
 
         if *is_ios.read() && !*is_installed.read() {
