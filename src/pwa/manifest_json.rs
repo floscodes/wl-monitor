@@ -11,7 +11,7 @@ pub fn generate_manifest_href(icon_192: Asset, icon_512: Asset) -> String {
             "name": "Wiener Linien Abfahrtszeiten Monitor",
             "short_name": "WL-Monitor",
             "description": "Alternative departure times monitor for Vienna's public transport services",
-            "start_url": "/wl-monitor/",
+            "start_url": "https://floscodes.github.io/wl-monitor/",
             "display": "standalone",
             "background_color": "#49170eff",
             "theme_color": "#8f2e1d",
