@@ -8,7 +8,7 @@ pub fn generate_manifest_href(icon_192: Asset, icon_512: Asset) -> String {
             "name": "Wiener Linien Abfahrtszeiten Monitor",
             "short_name": "WL-Monitor",
             "description": "Alternative departure times monitor for Vienna's public transport services",
-            "start_url": "/wl-monitor",
+            "start_url": "/wl-monitor/",
             "display": "standalone",
             "background_color": "#49170eff",
             "theme_color": "#8f2e1d",
@@ -20,5 +20,5 @@ pub fn generate_manifest_href(icon_192: Asset, icon_512: Asset) -> String {
         }}
     "##);
 
-    format!("data:application/manifest+json;base64,{}", urlencoding::encode(&manifest_json))
+    format!("data:application/manifest+json,{}", urlencoding::encode(&manifest_json))
 }
