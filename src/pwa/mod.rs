@@ -2,6 +2,7 @@ pub mod android;
 pub mod ios;
 pub mod service_worker;
 pub mod manifest;
+pub mod welcome_screen;
 
 use dioxus::prelude::*;
 

@@ -1,5 +1,5 @@
-use super::components::icons::safari::Safari;
-use super::components::icons::train::TrainIcon;
+use crate::components::icons::safari::Safari;
+use crate::components::icons::train::TrainIcon;
 use dioxus::prelude::*;
 
 #[component]
@@ -10,7 +10,7 @@ pub fn WelcomeScreen(is_safari: Signal<bool>) -> Element {
             h1 {
                 "Willkommen 👋"
                 div { class: "welcome-screen-logo", TrainIcon {} }
-
+            
             }
             p { "Füge diese App zu deinem Home-Bildschirm hinzu:" }
             ul {

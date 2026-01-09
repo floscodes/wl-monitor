@@ -2,7 +2,6 @@ use components::*;
 use data::dataset::MonitorData;
 use dioxus::prelude::*;
 use std::time::Duration;
-use welcome_screen::WelcomeScreen;
 
 #[cfg(not(feature = "web"))]
 use tokio::time::sleep;
@@ -12,7 +11,6 @@ use wasmtimer::tokio::sleep;
 
 mod components;
 pub mod data;
-mod welcome_screen;
 mod pwa;
 
 const TAILWIND_CSS: Asset = asset!("/assets/tailwind.css");
@@ -83,7 +81,7 @@ fn App() -> Element {
         document::Link { rel: "manifest", href: pwa::manifest::generate_manifest_href() }
 
         if *is_ios.read() && !*is_installed.read() {
-            WelcomeScreen { is_safari }
+            pwa::welcome_screen::WelcomeScreen { is_safari }
         } else {
             div { class: "blur-zone-top" }
             Base {}
