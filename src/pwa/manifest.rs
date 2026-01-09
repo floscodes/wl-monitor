@@ -9,7 +9,7 @@ pub fn generate_manifest_href() -> String {
     let base_url = "https://floscodes.github.io";
     let icon_192 = format!("{base_url}{APP_ICON_192}");
     let icon_512 = format!("{base_url}{APP_ICON_512}");
-    let screenshot_mobile = format!("{base_url}{SCREENSHOT_MOBILE}");
+    let screenshot = format!("{base_url}{SCREENSHOT_MOBILE}");
     let manifest_json = format!(r##"
         {{
             "name": "Wiener Linien Abfahrtszeiten Monitor",
@@ -17,7 +17,6 @@ pub fn generate_manifest_href() -> String {
             "description": "Dein einfacher, übersichtlicher und schneller Wiener Linien Monitor für Echtzeit-Abfahrten",
             "start_url": "https://floscodes.github.io/wl-monitor/",
             "display": "standalone",
-            "display_override": ["standalone"],
             "background_color": "#49170eff",
             "theme_color": "#8f2e1d",
             "orientation": "portrait",
@@ -27,8 +26,10 @@ pub fn generate_manifest_href() -> String {
             ],
             "screenshots": [
                 {{
-                    "src": "{screenshot_mobile}",
+                    "src": "{screenshot}",
+                    "sizes": "1179x2556",
                     "type": "image/png",
+                    "form_factor": "narrow", 
                     "label": "Echtzeit-Abfahrtsmonitor für Wien"
                 }}
             ]
