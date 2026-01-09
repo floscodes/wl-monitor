@@ -50,6 +50,7 @@ pub fn SearchInput(
                 let mut cache_vec = cache_clone.write();
                 cache_vec.extend(stations.read().clone());
                 *cache_vec = remove_double_values_from_vec(&*cache_vec);
+                cache_vec.truncate(7);
                 loading_stations.set(false);
             } else {
                 station_selected.set(false);
