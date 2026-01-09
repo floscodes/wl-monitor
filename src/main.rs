@@ -56,19 +56,19 @@ fn App() -> Element {
     });
 
     rsx! {
-        meta {
+        document::Meta {
             name: "viewport",
             content: "width=device-width, initial-scale=1.0, viewport-fit=cover",
         }
-        meta { charset: "UTF-8", lang: "de-AT" }
+        document::Meta { charset: "UTF-8", lang: "de-AT" }
 
-        meta { name: "apple-mobile-web-app-capable", content: "yes" }
-        meta {
+        document::Meta { name: "apple-mobile-web-app-capable", content: "yes" }
+        document::Meta {
             name: "apple-mobile-web-app-status-bar-style",
             content: "#49170eff",
         }
-        meta { name: "theme-color", content: "#8f2e1d" }
-        meta { name: "apple-mobile-web-app-title", content: "WL-Monitor" }
+        document::Meta { name: "theme-color", content: "#8f2e1d" }
+        document::Meta { name: "apple-mobile-web-app-title", content: "WL-Monitor" }
 
         document::Link { rel: "manifest", href: pwa::manifest::generate_manifest_href() }
         document::Link { rel: "stylesheet", href: TAILWIND_CSS }
