@@ -33,6 +33,7 @@ pub fn generate_manifest_href() -> String {
                     "form_factor": "narrow",
                     "label": "Echtzeit-Abfahrtsmonitor für Wien"
                 }}
+            ]
         }}
     "##);
 
