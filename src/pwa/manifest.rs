@@ -9,6 +9,7 @@ pub fn generate_manifest_href() -> String {
     let base_url = "https://floscodes.github.io";
     let icon_192 = format!("{base_url}{APP_ICON_192}");
     let icon_512 = format!("{base_url}{APP_ICON_512}");
+    let screenshot_mobile = format!("{base_url}{SCREENSHOT_MOBILE}");
     let manifest_json = format!(r##"
         {{
             "name": "Wiener Linien Abfahrtszeiten Monitor",
@@ -26,7 +27,7 @@ pub fn generate_manifest_href() -> String {
             ],
             "screenshots": [
                 {{
-                    "src": "{SCREENSHOT_MOBILE}",
+                    "src": "{screenshot_mobile}",
                     "sizes": "1179x2556",
                     "type": "image/png",
                     "form_factor": "narrow",
