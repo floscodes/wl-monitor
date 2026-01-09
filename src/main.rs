@@ -56,31 +56,25 @@ fn App() -> Element {
     });
 
     rsx! {
-        head {
-            document::Meta {
-                name: "viewport",
-                content: "width=device-width, initial-scale=1.0, viewport-fit=cover",
-            }
-            document::Meta { charset: "UTF-8", lang: "de-AT" }
-
-            document::Meta { name: "apple-mobile-web-app-capable", content: "yes" }
-            document::Meta {
-                name: "apple-mobile-web-app-status-bar-style",
-                content: "#49170eff",
-            }
-            document::Meta { name: "theme-color", content: "#8f2e1d" }
-            document::Meta { name: "apple-mobile-web-app-title", content: "WL-Monitor" }
-
-            document::Link {
-                rel: "manifest",
-                href: pwa::manifest::generate_manifest_href(),
-            }
-            document::Link { rel: "stylesheet", href: TAILWIND_CSS }
-            document::Link { rel: "stylesheet", href: DX_COMPONENTS }
-            document::Link { rel: "stylesheet", href: BASE }
-            document::Link { rel: "apple-touch-icon", href: APP_ICON_180_iOS }
-        
+        document::Meta {
+            name: "viewport",
+            content: "width=device-width, initial-scale=1.0, viewport-fit=cover",
         }
+        document::Meta { charset: "UTF-8", lang: "de-AT" }
+
+        document::Meta { name: "apple-mobile-web-app-capable", content: "yes" }
+        document::Meta {
+            name: "apple-mobile-web-app-status-bar-style",
+            content: "#49170eff",
+        }
+        document::Meta { name: "theme-color", content: "#8f2e1d" }
+        document::Meta { name: "apple-mobile-web-app-title", content: "WL-Monitor" }
+
+        document::Link { rel: "manifest", href: pwa::manifest::generate_manifest_href() }
+        document::Link { rel: "stylesheet", href: TAILWIND_CSS }
+        document::Link { rel: "stylesheet", href: DX_COMPONENTS }
+        document::Link { rel: "stylesheet", href: BASE }
+        document::Link { rel: "apple-touch-icon", href: APP_ICON_180_iOS }
 
         if *is_ios.read() && !*is_installed.read() {
             pwa::welcome_screen::WelcomeScreen { is_safari }
