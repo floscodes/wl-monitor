@@ -75,7 +75,7 @@ fn App() -> Element {
         document::Link { rel: "stylesheet", href: DX_COMPONENTS }
         document::Link { rel: "stylesheet", href: BASE }
         document::Link { rel: "apple-touch-icon", href: APP_ICON_180_iOS }
-        {pwa::ios::splash_screen::SplashScreenLinkTags()}
+        pwa::ios::splash_screen::SplashScreenLinkTags {}
 
         if *is_ios.read() && !*is_installed.read() {
             pwa::welcome_screen::WelcomeScreen { is_safari }
