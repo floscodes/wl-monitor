@@ -32,25 +32,15 @@ fn App() -> Element {
     let mut is_safari = use_signal(|| false);
 
     use_future(move || async move {
-        is_installed.set(
-            pwa::is_installed().await
-        );
+        is_installed.set(pwa::is_installed().await);
     });
     use_future(move || async move {
-        is_ios.set(
-            pwa::ios::is_ios_pwa().await
-        );
+        is_ios.set(pwa::ios::is_ios_pwa().await);
     });
     use_future(move || async move {
-        is_safari.set(
-            pwa::ios::is_safari().await
-        );
+        is_safari.set(pwa::ios::is_safari().await);
     });
-    use_future(move || async move {
-        is_android.set(
-            pwa::android::is_android_pwa().await
-        )
-    });
+    use_future(move || async move { is_android.set(pwa::android::is_android_pwa().await) });
     use_future(move || async move {
         pwa::service_worker::run().await;
     });
@@ -62,7 +52,7 @@ fn App() -> Element {
         }
         document::Meta { charset: "UTF-8", lang: "de-AT" }
 
-        document::Meta { name: "apple-mobile-web-app-capable", content: "yes" }
+        document::Meta { name: "mobile-web-app-capable", content: "yes" }
         document::Meta {
             name: "apple-mobile-web-app-status-bar-style",
             content: "#49170eff",

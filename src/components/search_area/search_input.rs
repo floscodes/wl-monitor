@@ -91,6 +91,7 @@ pub fn SearchInput(
     rsx! {
         div { class: "input-wrapper",
             Input {
+                id: "search_input",
                 placeholder: "Suche Haltestelle...",
                 onfocus,
                 onfocusout,
