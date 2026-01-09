@@ -79,7 +79,7 @@ fn App() -> Element {
             link { rel: "stylesheet", href: DX_COMPONENTS }
             link { rel: "stylesheet", href: BASE }
             link { rel: "apple-touch-icon", href: APP_ICON_180_iOS }
-            pwa::ios::splash_screen::SplashScreenLinkTags {}
+        
         }
 
         if *is_ios.read() && !*is_installed.read() {
