@@ -1,7 +1,7 @@
 use dioxus::prelude::*;
 
 #[component]
-pub fn SplashScreenTags() -> Element {
+pub fn SplashScreenLinkTags() -> Element {
 rsx! {
     // 1. iPhone 14 Pro / 15 Pro (Die aktuelle Standard-Größe)
     document::Link {

@@ -56,29 +56,26 @@ fn App() -> Element {
     });
 
     rsx! {
-        document::Link { rel: "manifest", href: pwa::manifest::generate_manifest_href() }
-        document::Link { rel: "stylesheet", href: TAILWIND_CSS }
-        document::Link { rel: "stylesheet", href: DX_COMPONENTS }
-        document::Link { rel: "stylesheet", href: BASE }
-        document::Link { rel: "apple-touch-icon", href: APP_ICON_180_iOS }
-
         meta {
             name: "viewport",
             content: "width=device-width, initial-scale=1.0, viewport-fit=cover",
         }
         meta { charset: "UTF-8", lang: "de-AT" }
 
-        if *is_ios.read() {
-            meta { name: "apple-mobile-web-app-capable", content: "yes" }
-            meta {
-                name: "apple-mobile-web-app-status-bar-style",
-                content: "#49170eff",
-            }
-            meta { name: "theme-color", content: "#8f2e1d" }
-            meta { name: "apple-mobile-web-app-title", content: "WL-Monitor" }
-
-            {pwa::ios::splash_screen::SplashScreenTags()}
+        meta { name: "apple-mobile-web-app-capable", content: "yes" }
+        meta {
+            name: "apple-mobile-web-app-status-bar-style",
+            content: "#49170eff",
         }
+        meta { name: "theme-color", content: "#8f2e1d" }
+        meta { name: "apple-mobile-web-app-title", content: "WL-Monitor" }
+
+        document::Link { rel: "manifest", href: pwa::manifest::generate_manifest_href() }
+        document::Link { rel: "stylesheet", href: TAILWIND_CSS }
+        document::Link { rel: "stylesheet", href: DX_COMPONENTS }
+        document::Link { rel: "stylesheet", href: BASE }
+        document::Link { rel: "apple-touch-icon", href: APP_ICON_180_iOS }
+        {pwa::ios::splash_screen::SplashScreenLinkTags()}
 
         if *is_ios.read() && !*is_installed.read() {
             pwa::welcome_screen::WelcomeScreen { is_safari }

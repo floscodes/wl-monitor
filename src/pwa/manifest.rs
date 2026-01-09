@@ -3,7 +3,7 @@ use urlencoding;
 
 const APP_ICON_192: Asset = asset!("/assets/icons/Android-icons/Icon-192.png");
 const APP_ICON_512: Asset = asset!("/assets/icons/Android-icons/Icon-512.png");
-const SCREENSHOT_MOBILE: Asset = asset!("/assets/icons/screenshot-mobile.png");
+const SCREENSHOT_MOBILE: Asset = asset!("/assets/icons/screenshot.png");
 
 pub fn generate_manifest_href() -> String {
     let base_url = "https://floscodes.github.io";
@@ -28,9 +28,7 @@ pub fn generate_manifest_href() -> String {
             "screenshots": [
                 {{
                     "src": "{screenshot_mobile}",
-                    "sizes": "1179x2556",
                     "type": "image/png",
-                    "form_factor": "narrow",
                     "label": "Echtzeit-Abfahrtsmonitor für Wien"
                 }}
             ]
