@@ -56,6 +56,12 @@ fn App() -> Element {
     });
 
     rsx! {
+        document::Link { rel: "manifest", href: pwa::manifest::generate_manifest_href() }
+        document::Link { rel: "stylesheet", href: TAILWIND_CSS }
+        document::Link { rel: "stylesheet", href: DX_COMPONENTS }
+        document::Link { rel: "stylesheet", href: BASE }
+        document::Link { rel: "apple-touch-icon", href: APP_ICON_180_iOS }
+
         meta {
             name: "viewport",
             content: "width=device-width, initial-scale=1.0, viewport-fit=cover",
@@ -73,12 +79,6 @@ fn App() -> Element {
 
             {pwa::ios::splash_screen::SplashScreenTags()}
         }
-
-        document::Link { rel: "stylesheet", href: TAILWIND_CSS }
-        document::Link { rel: "stylesheet", href: DX_COMPONENTS }
-        document::Link { rel: "stylesheet", href: BASE }
-        document::Link { rel: "apple-touch-icon", href: APP_ICON_180_iOS }
-        document::Link { rel: "manifest", href: pwa::manifest::generate_manifest_href() }
 
         if *is_ios.read() && !*is_installed.read() {
             pwa::welcome_screen::WelcomeScreen { is_safari }
