@@ -55,7 +55,7 @@ pub fn SelectField(
                                                         monitor_loading.set(false);
                                                         let mut cache = cache.write();
                                                         cache.insert(0, station.clone());
-                                                        if cache.len() > 5 {
+                                                        if cache.len() > 7 {
                                                             let _ = cache.pop();
                                                         }
                                                     }

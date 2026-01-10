@@ -40,17 +40,12 @@ pub fn SearchInput(
     let onfocusout = move |_: FocusEvent| {
         clear_visibility.set(String::from("hidden"));
     };
-    let mut cache_clone = cache.clone();
     let mut search_fn = use_action(
         move |value: String, mut stations: Signal<Vec<StationDataSet>>| async move {
             if !*station_selected.read() {
                 loading_stations.set(true);
                 sleep(Duration::from_millis(350)).await;
                 stations.set(StationDataSet::search_request(value).await);
-                let mut cache_vec = cache_clone.write();
-                cache_vec.extend(stations.read().clone());
-                *cache_vec = remove_double_values_from_vec(&*cache_vec);
-                cache_vec.truncate(7);
                 loading_stations.set(false);
             } else {
                 station_selected.set(false);
