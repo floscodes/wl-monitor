@@ -5,6 +5,7 @@ use crate::{
 };
 use dioxus::prelude::*;
 use dioxus_primitives::scroll_area::ScrollDirection;
+use gloo_storage::{LocalStorage, Storage};
 
 #[component]
 pub fn SelectField(
@@ -12,7 +13,7 @@ pub fn SelectField(
     select_field_visibility: Signal<String>,
     selected_station_name: Signal<String>,
     monitor_data: Signal<MonitorData>,
-    cache: Signal<Vec<StationDataSet>>,
+    station_cache: Signal<Vec<StationDataSet>>,
     loading_stations: Signal<bool>,
     station_selected: Signal<bool>,
     monitor_loading: Signal<bool>,
@@ -53,11 +54,27 @@ pub fn SelectField(
                                                     if let Ok(data) = &data {
                                                         monitor_data.set(data.clone());
                                                         monitor_loading.set(false);
-                                                        let mut cache = cache.write();
-                                                        cache.insert(0, station.clone());
-                                                        if cache.len() > 7 {
-                                                            let _ = cache.pop();
+                                                        let mut station_cache = station_cache.write();
+                                                        station_cache.insert(0, station.clone());
+                                                        if station_cache.len() > 7 {
+                                                            let _ = station_cache.pop();
                                                         }
+                                                        LocalStorage::set("persistent_station_cache", &*station_cache)
+                                                            .map_err(|_e| {
+                                                                LocalStorage::set(
+                                                                        "persistent_station_cache",
+                                                                        vec![station.clone()],
+                                                                    )
+                                                                    .unwrap_or_default()
+                                                            })
+                                                            .ok();
+                                                        LocalStorage::set("persistent_monitor_data", &data)
+                                                            .unwrap_or_default();
+                                                        LocalStorage::set(
+                                                                "persistent_last_selected_station_name",
+                                                                &station.name,
+                                                            )
+                                                            .unwrap_or_default();
                                                     }
                                                 });
                                             }

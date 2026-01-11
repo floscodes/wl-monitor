@@ -2,10 +2,11 @@ use super::*;
 use dioxus::prelude::{*, document::EvalError};
 use helpers::*;
 use serde_json::{self, Value};
+use serde::{Deserialize, Serialize};
 
 const MUNIPACITY_NAME: &'static str = "wien";
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct MonitorData {
     pub data: Vec<MonitorDataSet>,
     pub vao: String,
@@ -64,7 +65,7 @@ impl MonitorData {
     }
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct MonitorDataSet {
     pub line_name: String,
     pub destination: String,
@@ -81,7 +82,7 @@ impl MonitorDataSet {
     }
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct StationDataSet {
     pub name: String,
     pub vao: String,

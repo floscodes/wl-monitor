@@ -16,18 +16,18 @@ pub fn SearchInput(
     stations: Signal<Vec<StationDataSet>>,
     select_field_visibility: Signal<String>,
     selected_station_name: Signal<String>,
-    mut cache: Signal<Vec<StationDataSet>>,
+    mut station_cache: Signal<Vec<StationDataSet>>,
     loading_stations: Signal<bool>,
     station_selected: Signal<bool>,
     clear_visibility: Signal<String>,
 ) -> Element {
     let onfocus = move |_: FocusEvent| {
-        let mut cache_write = cache.write();
-        if cache_write.len() == 0 {
+        let mut station_cache_write = station_cache.write();
+        if station_cache_write.len() == 0 {
             return;
         }
-        *cache_write = remove_double_values_from_vec(&*cache_write);
-        stations.set(cache_write.clone());
+        *station_cache_write = remove_double_values_from_vec(&*station_cache_write);
+        stations.set(station_cache_write.clone());
         select_field_visibility.set(String::from("visible"));
 
         let input_value = selected_station_name.read().clone();
@@ -58,11 +58,11 @@ pub fn SearchInput(
 
         match search_string.len() {
             0 => {
-                stations.set(cache.read().clone());
+                stations.set(station_cache.read().clone());
                 return;
             }
             1..4 => {
-                stations.set(check_cache_and_filter(&search_string, cache));
+                stations.set(check_cache_and_filter(&search_string, station_cache));
                 return;
             }
             _ => {
@@ -71,7 +71,7 @@ pub fn SearchInput(
                     return;
                 }
                 select_field_visibility.set(String::from("visible"));
-                stations.set(check_cache_and_filter(&search_string, cache));
+                stations.set(check_cache_and_filter(&search_string, station_cache));
 
                 if !stations.read().len() == 0 {
                     return;

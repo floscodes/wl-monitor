@@ -1,6 +1,7 @@
 use components::*;
-use data::dataset::MonitorData;
+use data::dataset::{MonitorData, StationDataSet};
 use dioxus::prelude::*;
+use gloo_storage::{LocalStorage, Storage};
 use std::time::Duration;
 
 #[cfg(not(feature = "web"))]
@@ -78,7 +79,11 @@ fn App() -> Element {
 
 #[component]
 fn Base() -> Element {
-    let monitor_data = use_signal(|| MonitorData::new());
+    let monitor_data =
+        use_signal(|| LocalStorage::get("persistent_monitor_data").unwrap_or(MonitorData::new()));
+    let station_cache = use_signal(|| {
+        LocalStorage::get("persistent_station_cache").unwrap_or(Vec::<StationDataSet>::new())
+    });
     let monitor_loading = use_signal(|| false);
     let select_field_visibility = use_signal(|| String::from("hidden"));
 
@@ -113,6 +118,7 @@ fn Base() -> Element {
             div { class: "search-area",
                 SearchArea {
                     monitor_data,
+                    station_cache,
                     monitor_loading,
                     select_field_visibility,
                 }
