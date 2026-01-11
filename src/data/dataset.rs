@@ -4,7 +4,7 @@ use helpers::*;
 use serde_json::{self, Value};
 use serde::{Deserialize, Serialize};
 
-const MUNIPACITY_NAME: &'static str = "wien";
+const VAO_REGIONAL_START_DIGIT: &'static str = "4";
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct MonitorData {
@@ -101,9 +101,7 @@ impl StationDataSet {
                     if let Value::String(ref name) = station["title"]
                         && let Value::String(ref vao) = station["externalId"]
                     {
-                        if !name
-                            .to_lowercase()
-                            .contains(&MUNIPACITY_NAME.to_lowercase())
+                        if !vao.replace("vao:", "").starts_with(VAO_REGIONAL_START_DIGIT)
                         {
                             continue;
                         }
