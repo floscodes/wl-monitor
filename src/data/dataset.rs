@@ -86,6 +86,7 @@ impl MonitorDataSet {
 pub struct StationDataSet {
     pub name: String,
     pub vao: String,
+    pub cached: bool,
 }
 
 impl StationDataSet {
@@ -113,6 +114,7 @@ impl StationDataSet {
                                 station_data_sets.push(StationDataSet {
                                     name: name,
                                     vao: vao.clone(),
+                                    cached: false,
                                 });
                             }
                         }

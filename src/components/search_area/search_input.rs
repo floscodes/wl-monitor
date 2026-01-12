@@ -111,15 +111,16 @@ fn check_cache_and_filter(
     cache: Signal<Vec<StationDataSet>>,
 ) -> Vec<StationDataSet> {
     let mut filtered_cache = Vec::new();
-    for station in cache.read().iter() {
-        if station
+    let cache = cache.read();
+    for cached_station in cache.iter() {
+        if cached_station
             .name
             .trim()
             .to_lowercase()
             .contains(&search_string.trim().to_lowercase())
         {
-            if !filtered_cache.contains(station) {
-                filtered_cache.push(station.clone());
+            if !filtered_cache.contains(cached_station) {
+                filtered_cache.push(cached_station.clone());
             }
         }
     }

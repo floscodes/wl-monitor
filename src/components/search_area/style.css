@@ -31,6 +31,7 @@
 
 .select-field {
     position: absolute;
+    width: 90%;
     display: flex;
     box-sizing: border-box;
     flex-direction: column;
@@ -52,13 +53,29 @@
 }
 
 .select-field-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     margin-top: 1vh;
     margin-bottom: 1vh;
 }
 
-.select-field-container>.select-field>.close-button {
+.select-field-item-close-button {
     position: absolute;
-    right: 0.5rem;
-    top: 0.5rem;
+    width: 1.8rem;
+    height: 1.8rem;
+    /*transform: translateX(4950%);*/
+    right: 10%;
     cursor: pointer;
+}
+
+.select-field-item-station-name {
+    margin-left: 13%;
+}
+
+.select-field-item-cached-icon-clock {
+    position: absolute;
+    left: 10%;
+    width: 1.5rem;
+    height: 1.5rem;
 }
