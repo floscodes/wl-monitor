@@ -65,17 +65,17 @@
     width: 1.8rem;
     height: 1.8rem;
     /*transform: translateX(4950%);*/
-    right: 10%;
+    right: 6%;
     cursor: pointer;
 }
 
 .select-field-item-station-name {
-    margin-left: 13%;
+    margin-left: 10%;
 }
 
 .select-field-item-cached-icon-clock {
     position: absolute;
-    left: 10%;
-    width: 1.5rem;
-    height: 1.5rem;
+    left: 6%;
+    width: 1.4rem;
+    height: 1.4rem;
 }

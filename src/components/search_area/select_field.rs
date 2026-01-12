@@ -91,12 +91,14 @@ pub fn SelectField(
 
                 
 
-                                        DeleteButton {
-                                            index,
-                                            stations,
-                                            station_cache,
-                                            station_cached: station.cached,
-                                            select_field_visibility,
+                                        if station.cached {
+                                            DeleteButton {
+                                                index,
+                                                stations,
+                                                station_cache,
+                                                station_cached: station.cached,
+                                                select_field_visibility,
+                                            }
                                         }
                 
                                     }
