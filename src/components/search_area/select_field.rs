@@ -1,6 +1,6 @@
 use super::super::scroll_area::*;
 use crate::{
-    components::Spinner,
+    components::{Spinner, CloseIcon},
     data::dataset::{MonitorData, StationDataSet},
 };
 use dioxus::prelude::*;
@@ -80,6 +80,7 @@ pub fn SelectField(
                                             }
                                         },
                                         "{station.name}"
+                                        CloseButton { station_cache }
                                     }
                                 }
                             })
@@ -87,5 +88,12 @@ pub fn SelectField(
                 }
             }
         }
+    }
+}
+
+#[component]
+fn CloseButton(station_cache: Signal<Vec<StationDataSet>>) -> Element {
+    rsx! {
+        div { class: "close-button", CloseIcon {} }
     }
 }
