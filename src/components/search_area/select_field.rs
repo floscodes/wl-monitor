@@ -89,7 +89,7 @@ pub fn SelectField(
                                             "{station.name}"
                                         }
 
-                
+
 
                                         if station.cached {
                                             DeleteButton {
@@ -100,7 +100,7 @@ pub fn SelectField(
                                                 select_field_visibility,
                                             }
                                         }
-                
+
                                     }
                                 }
                             })

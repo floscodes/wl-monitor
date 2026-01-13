@@ -48,20 +48,22 @@ pub fn WelcomeScreen(client: Memo<Client>) -> Element {
         div { class: "welcome-screen",
             div { class: "welcome-screen-logo", TrainIcon {} }
             h1 { "Hi 👋 😊" }
-            match client_screen {
-                ClientScreen::Mobile => rsx! {
-                    match client_os {
-                        ClientOS::IOS(_) => rsx! {
-                            screens::WelcomeIOS { client }
-                        },
-                        _ => rsx! {
-                            screens::WelcomeAndroid { client }
-                        },
-                    }
-                },
-                ClientScreen::Desktop => rsx! {
-                    screens::WelcomeDesktop {}
-                },
+            div { class: "welcome-screen-instructions",
+                match client_screen {
+                    ClientScreen::Mobile => rsx! {
+                        match client_os {
+                            ClientOS::IOS(_) => rsx! {
+                                screens::WelcomeIOS { client }
+                            },
+                            _ => rsx! {
+                                screens::WelcomeAndroid { client }
+                            },
+                        }
+                    },
+                    ClientScreen::Desktop => rsx! {
+                        screens::WelcomeDesktop {}
+                    },
+                }
             }
         }
     }
