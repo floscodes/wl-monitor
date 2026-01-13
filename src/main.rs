@@ -13,7 +13,7 @@ use wasmtimer::tokio::sleep;
 mod components;
 pub mod data;
 mod pwa;
-use pwa::welcome_screen::{ClientScreen, ClientOS, IsSafari};
+use pwa::welcome_screen::{ClientOS, ClientScreen, IsSafari};
 
 const TAILWIND_CSS: Asset = asset!("/assets/tailwind.css");
 const DX_COMPONENTS: Asset = asset!("/assets/dx-components-theme.css");
@@ -28,13 +28,32 @@ fn main() {
 
 #[component]
 fn App() -> Element {
+    let mut is_mobile_device = use_signal(|| false);
     let mut is_installed = use_signal(|| false);
     let mut is_android = use_signal(|| false);
     let mut is_ios = use_signal(|| false);
     let mut is_safari = use_signal(|| false);
 
-    let mut pwa_client = use_signal(|| pwa::welcome_screen::Client::new());
+    let pwa_client = use_memo(move || {
+        let mut client = pwa::welcome_screen::Client::new();
+        if *is_mobile_device.read() {
+            client.screen = ClientScreen::Mobile;
+        } else {
+            client.screen = ClientScreen::Desktop;
+        }
+        if *is_ios.read() {
+            client.os = ClientOS::IOS(IsSafari(*is_safari.read()));
+        } else if *is_android.read() {
+            client.os = ClientOS::Android;
+        } else {
+            client.os = ClientOS::Other;
+        }
+        client
+    });
 
+    use_future(move || async move {
+        is_mobile_device.set(pwa::is_mobile_device().await);
+    });
     use_future(move || async move {
         is_installed.set(pwa::is_installed().await);
     });

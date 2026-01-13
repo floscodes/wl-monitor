@@ -1,6 +1,5 @@
-use crate::components::icons::safari::Safari;
 use crate::components::icons::train::TrainIcon;
-use qrcode_generator::QrCodeEcc;
+
 use dioxus::prelude::*;
 
 mod screens;
@@ -34,21 +33,18 @@ pub enum ClientOS {
 }
 
 #[derive(PartialEq, Clone)]
-pub struct IsSafari(bool);
-
+pub struct IsSafari(pub bool);
 
 #[component]
-pub fn WelcomeScreen(client: Signal<Client>) -> Element {
+pub fn WelcomeScreen(client: Memo<Client>) -> Element {
     let client_read = client.read();
     let client_screen = client_read.screen.clone();
     let client_os = client_read.os.clone();
     rsx! {
         document::Link { rel: "stylesheet", href: asset!("./style.css") }
         div { class: "welcome-screen",
-            h1 {
-                "Willkommen 👋"
-                div { class: "welcome-screen-logo", TrainIcon {} }
-            }
+            div { class: "welcome-screen-logo", TrainIcon {} }
+            h1 { "Hi 👋 😊" }
             match client_screen {
                 ClientScreen::Mobile => rsx! {
                     match client_os {
@@ -67,5 +63,3 @@ pub fn WelcomeScreen(client: Signal<Client>) -> Element {
         }
     }
 }
-
-

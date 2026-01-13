@@ -1,8 +1,11 @@
+use super::{Client, ClientOS, IsSafari};
+use crate::components::icons::safari::Safari;
 use dioxus::prelude::*;
-use super::*;
+use qrcode_generator::QrCodeEcc;
+use web_sys::window;
 
 #[component]
-pub fn WelcomeIOS(client: Signal<Client>) -> Element {
+pub fn WelcomeIOS(client: Memo<Client>) -> Element {
     let is_safari = client.read().os == ClientOS::IOS(IsSafari(true));
     rsx! {
         p { "Füge diese App zu deinem Home-Bildschirm hinzu:" }
@@ -31,7 +34,7 @@ pub fn WelcomeIOS(client: Signal<Client>) -> Element {
 }
 
 #[component]
-pub fn WelcomeAndroid(client: Signal<Client>) -> Element {
+pub fn WelcomeAndroid(client: Memo<Client>) -> Element {
     let is_safari = client.read().os == ClientOS::IOS(IsSafari(true));
     rsx! {
         p { "Füge diese App zu deinem Home-Bildschirm hinzu:" }
@@ -61,10 +64,10 @@ pub fn WelcomeAndroid(client: Signal<Client>) -> Element {
 
 #[component]
 pub fn WelcomeDesktop() -> Element {
-    rsx!{
+    rsx! {
         p { "Öffne diese Seite auf deinem Smartphone!" }
         if let Some(qr_code) = url_qr_code() {
-            p { "oder scanne diesen QR-Code:" }
+            p { class: "qr-code-text", "Oder scanne diesen QR-Code:" }
             {qr_code}
         }
     }
@@ -92,11 +95,10 @@ pub fn Points() -> Element {
 }
 
 fn url_qr_code() -> Option<Element> {
-    let qr_code = qrcode_generator::to_svg_to_string(
-        "https://floscodes.github.io/wl-monitor/",
-        QrCodeEcc::Low, 1024, None::<&str>,
-    ).ok()?;
+    let url = window()?.location().href().ok()?;
+    let qr_code =
+        qrcode_generator::to_svg_to_string(url, QrCodeEcc::Low, 200, None::<&str>).ok()?;
     Some(rsx! {
-        div { class: "qr-container", dangerous_inner_html: "{qr_code}" }
+        div { class: "qr-container", dangerous_inner_html: qr_code }
     })
 }

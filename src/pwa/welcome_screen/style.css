@@ -1,22 +1,26 @@
 .welcome-screen {
-    padding: 15%;
+    padding: 0;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     color: oklch(93.6% 0.032 17.717);
     height: 100vh;
 }
 
 .welcome-screen>h1 {
-    display: flex;
-    flex-direction: row;
     margin-top: 0;
     padding: 0;
     font-size: 3rem;
 }
 
+.welcome-screen-logo {
+    width: 35%;
+    height: 35%;
+}
+
 .welcome-screen>p {
-    margin-top: 5%;
+    margin-top: 1%;
     font-size: 1.5rem;
     font-weight: 300;
 }
@@ -38,16 +42,6 @@
     height: 3rem;
 }
 
-.welcome-screen>h1>.welcome-screen-logo {
-    position: absolute;
-    width: 25%;
-    height: 25%;
-    padding: 0;
-    margin: 0;
-    left: 30%;
-    top: 13%;
-}
-
 .safari-icon-container {
     width: 2rem;
     height: 2rem;
@@ -55,6 +49,9 @@
 }
 
 .qr-container {
-    width: 15%;
-    height: 15%;
+    margin-top: 3%;
+}
+
+.welcome-screen>p.qr-code-text {
+    margin-top: 1%;
 }
