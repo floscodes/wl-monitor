@@ -39,6 +39,8 @@ pub fn SearchInput(
     };
     let onfocusout = move |_: FocusEvent| {
         clear_visibility.set(String::from("hidden"));
+        let selected_station_name_string = selected_station_name.read().clone();
+        selected_station_name.set(selected_station_name_string);
     };
     let mut search_fn = use_action(
         move |value: String, mut stations: Signal<Vec<StationDataSet>>| async move {
