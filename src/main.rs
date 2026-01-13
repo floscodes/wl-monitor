@@ -13,7 +13,7 @@ use wasmtimer::tokio::sleep;
 mod components;
 pub mod data;
 mod pwa;
-use pwa::welcome_screen::{ClientOS, ClientScreen, IsSafari};
+use pwa::welcome_screen::{ClientOS, ClientScreen, IsChrome, IsSafari};
 
 const TAILWIND_CSS: Asset = asset!("/assets/tailwind.css");
 const DX_COMPONENTS: Asset = asset!("/assets/dx-components-theme.css");
@@ -33,6 +33,25 @@ fn App() -> Element {
     let mut is_android = use_signal(|| false);
     let mut is_ios = use_signal(|| false);
     let mut is_safari = use_signal(|| false);
+    let mut is_chrome = use_signal(|| false);
+
+    use_future(move || async move {
+        is_mobile_device.set(pwa::is_mobile_device().await);
+    });
+    use_future(move || async move {
+        is_installed.set(pwa::is_installed().await);
+    });
+    use_future(move || async move {
+        is_ios.set(pwa::ios::is_ios().await);
+    });
+    use_future(move || async move {
+        is_safari.set(pwa::ios::is_safari().await);
+    });
+    use_future(move || async move { is_android.set(pwa::android::is_android().await) });
+    use_future(move || async move { is_chrome.set(pwa::android::is_chrome().await) });
+    use_future(move || async move {
+        pwa::service_worker::run().await;
+    });
 
     let pwa_client = use_memo(move || {
         let mut client = pwa::welcome_screen::Client::new();
@@ -43,29 +62,14 @@ fn App() -> Element {
         }
         if *is_ios.read() {
             client.os = ClientOS::IOS(IsSafari(*is_safari.read()));
+            // Set screen to mobile if iOS in case that Safari does not support JS mobile device check
+            client.screen = ClientScreen::Mobile;
         } else if *is_android.read() {
-            client.os = ClientOS::Android;
+            client.os = ClientOS::Android(IsChrome(*is_chrome.read()));
         } else {
             client.os = ClientOS::Other;
         }
         client
-    });
-
-    use_future(move || async move {
-        is_mobile_device.set(pwa::is_mobile_device().await);
-    });
-    use_future(move || async move {
-        is_installed.set(pwa::is_installed().await);
-    });
-    use_future(move || async move {
-        is_ios.set(pwa::ios::is_ios_pwa().await);
-    });
-    use_future(move || async move {
-        is_safari.set(pwa::ios::is_safari().await);
-    });
-    use_future(move || async move { is_android.set(pwa::android::is_android_pwa().await) });
-    use_future(move || async move {
-        pwa::service_worker::run().await;
     });
 
     rsx! {

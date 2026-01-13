@@ -28,12 +28,15 @@ pub enum ClientScreen {
 #[derive(PartialEq, Clone)]
 pub enum ClientOS {
     IOS(IsSafari),
-    Android,
+    Android(IsChrome),
     Other,
 }
 
 #[derive(PartialEq, Clone)]
 pub struct IsSafari(pub bool);
+
+#[derive(PartialEq, Clone)]
+pub struct IsChrome(pub bool);
 
 #[component]
 pub fn WelcomeScreen(client: Memo<Client>) -> Element {

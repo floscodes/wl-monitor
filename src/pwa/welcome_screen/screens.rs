@@ -1,5 +1,5 @@
-use super::{Client, ClientOS, IsSafari};
-use crate::components::icons::safari::Safari;
+use super::{Client, ClientOS, IsChrome, IsSafari};
+use crate::components::icons::browsers::{ChromeIcon, SafariIcon};
 use dioxus::prelude::*;
 use qrcode_generator::QrCodeEcc;
 use web_sys::window;
@@ -20,7 +20,7 @@ pub fn WelcomeIOS(client: Memo<Client>) -> Element {
             } else {
                 li {
                     "1.) Öffne diese Seite in Safari "
-                    div { class: "safari-icon-container", Safari {} }
+                    div { class: "safari-icon-container", SafariIcon {} }
                 }
                 li {
                     "2.) Klicke dann unten auf "
@@ -35,28 +35,18 @@ pub fn WelcomeIOS(client: Memo<Client>) -> Element {
 
 #[component]
 pub fn WelcomeAndroid(client: Memo<Client>) -> Element {
-    let is_safari = client.read().os == ClientOS::IOS(IsSafari(true));
+    let is_chrome = client.read().os == ClientOS::Android(IsChrome(true));
     rsx! {
-        p { "Füge diese App zu deinem Home-Bildschirm hinzu:" }
+        p { "Installiere diese App:" }
         ul {
-            if is_safari {
-                li {
-                    "1.) Klicke unten auf "
-                    Points {}
-                }
-                li { "2.) Klicke auf „Teilen“" }
-                li { "3.) Klicke auf „Zum Home-Bildschirm“" }
+            if is_chrome {
+                li { "Klicke rechts oben auf den kleinen Pfeil beim Bildschirm-Symbol" }
             } else {
                 li {
-                    "1.) Öffne diese Seite in Safari "
-                    div { class: "safari-icon-container", Safari {} }
+                    "1.) Öffne diese Seite in Chrome "
+                    div { class: "browser-icon-container", ChromeIcon {} }
                 }
-                li {
-                    "2.) Klicke dann unten auf "
-                    Points {}
-                }
-                li { "3.) Klicke auf „Teilen“" }
-                li { "4.) Klicke auf „Zum Home-Bildschirm“" }
+                li { "2.) Klicke dann rechts oben auf den kleinen Pfeil beim Bildschirm-Symbol" }
             }
         }
     }
