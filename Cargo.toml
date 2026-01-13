@@ -8,7 +8,7 @@ edition = "2024"
 
 [dependencies]
 anyhow = "1.0.100"
-dioxus = { version = "0.7.1", features = ["document", "html"] }
+dioxus = { version = "0.7.2", features = ["document", "html"] }
 dioxus-primitives = { git = "https://github.com/DioxusLabs/components", version = "0.0.1", default-features = false }
 gloo-storage = "0.3.0"
 log = "0.4.29"

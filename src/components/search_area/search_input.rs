@@ -26,7 +26,7 @@ pub fn SearchInput(
         if station_cache_write.len() == 0 {
             return;
         }
-        *station_cache_write = remove_double_values_from_vec(&*station_cache_write);
+        *station_cache_write = remove_double_values_from_cache(&*station_cache_write);
         stations.set(station_cache_write.clone());
         select_field_visibility.set(String::from("visible"));
 
@@ -44,8 +44,11 @@ pub fn SearchInput(
         move |value: String, mut stations: Signal<Vec<StationDataSet>>| async move {
             if !*station_selected.read() {
                 loading_stations.set(true);
+                let cached_stations = stations.read().clone();
                 sleep(Duration::from_millis(350)).await;
-                stations.set(StationDataSet::search_request(value).await);
+                let fetched_stations = StationDataSet::search_request(value).await;
+                let concated_stations = concat_fetched_stations_and_cache(cached_stations, fetched_stations);
+                stations.set(concated_stations);
                 loading_stations.set(false);
             } else {
                 station_selected.set(false);
@@ -79,7 +82,7 @@ pub fn SearchInput(
             }
         }
         search_fn
-            .call(search_string.clone(), stations.clone())
+            .call(search_string, stations)
             .await;
     };
 
@@ -127,7 +130,7 @@ fn check_cache_and_filter(
     filtered_cache
 }
 
-fn remove_double_values_from_vec(vec: &Vec<StationDataSet>) -> Vec<StationDataSet> {
+fn remove_double_values_from_cache(vec: &Vec<StationDataSet>) -> Vec<StationDataSet> {
     let mut unique_vec = Vec::new();
     for station in vec {
         if !unique_vec.contains(station) {
@@ -136,3 +139,14 @@ fn remove_double_values_from_vec(vec: &Vec<StationDataSet>) -> Vec<StationDataSe
     }
     unique_vec
 }
+
+fn concat_fetched_stations_and_cache(cached_stations: Vec<StationDataSet>, fetched_stations: Vec<StationDataSet>) -> Vec<StationDataSet> {
+    let mut concated_stations = cached_stations;
+
+    for fetched_station in &fetched_stations {
+        if !concated_stations.contains(fetched_station) {
+            concated_stations.push(fetched_station.clone());
+        }
+    }
+    concated_stations
+} 

@@ -82,11 +82,17 @@ impl MonitorDataSet {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct StationDataSet {
     pub name: String,
     pub vao: String,
     pub cached: bool,
+}
+
+impl PartialEq for StationDataSet {
+    fn eq(&self, other: &Self) -> bool {
+        self.name == other.name && self.vao == other.vao
+    }
 }
 
 impl StationDataSet {
