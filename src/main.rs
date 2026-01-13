@@ -13,6 +13,7 @@ use wasmtimer::tokio::sleep;
 mod components;
 pub mod data;
 mod pwa;
+use pwa::welcome_screen::{ClientScreen, ClientOS, IsSafari};
 
 const TAILWIND_CSS: Asset = asset!("/assets/tailwind.css");
 const DX_COMPONENTS: Asset = asset!("/assets/dx-components-theme.css");
@@ -31,6 +32,8 @@ fn App() -> Element {
     let mut is_android = use_signal(|| false);
     let mut is_ios = use_signal(|| false);
     let mut is_safari = use_signal(|| false);
+
+    let mut pwa_client = use_signal(|| pwa::welcome_screen::Client::new());
 
     use_future(move || async move {
         is_installed.set(pwa::is_installed().await);
@@ -67,8 +70,8 @@ fn App() -> Element {
         document::Link { rel: "stylesheet", href: BASE }
         document::Link { rel: "apple-touch-icon", href: APP_ICON_180_iOS }
 
-        if *is_ios.read() && !*is_installed.read() {
-            pwa::welcome_screen::WelcomeScreen { is_safari }
+        if !*is_installed.read() {
+            pwa::welcome_screen::WelcomeScreen { client: pwa_client }
         } else {
             div { class: "blur-zone-top" }
             Base {}
