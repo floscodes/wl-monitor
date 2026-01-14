@@ -93,12 +93,18 @@ fn App() -> Element {
         document::Link { rel: "stylesheet", href: BASE }
         document::Link { rel: "apple-touch-icon", href: APP_ICON_180_iOS }
 
-        if !*is_installed.read() {
-            pwa::welcome_screen::WelcomeScreen { client: pwa_client }
-        } else {
+        if cfg!(debug_assertions) {
             div { class: "blur-zone-top" }
             Base {}
             div { class: "blur-zone-bottom" }
+        } else {
+            if !*is_installed.read() {
+                pwa::welcome_screen::WelcomeScreen { client: pwa_client }
+            } else {
+                div { class: "blur-zone-top" }
+                Base {}
+                div { class: "blur-zone-bottom" }
+            }
         }
     }
 }

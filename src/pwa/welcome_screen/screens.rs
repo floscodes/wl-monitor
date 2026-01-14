@@ -1,4 +1,5 @@
 use super::{Client, ClientOS, IsChrome, IsSafari};
+use crate::components::icons::AndroidInstallIcon;
 use crate::components::icons::browsers::{ChromeIcon, SafariIcon};
 use dioxus::prelude::*;
 use qrcode_generator::QrCodeEcc;
@@ -46,7 +47,10 @@ pub fn WelcomeAndroid(client: Memo<Client>) -> Element {
                     "1.) Öffne diese Seite in Chrome "
                     div { class: "browser-icon-container", ChromeIcon {} }
                 }
-                li { "2.) Klicke dann rechts oben auf den kleinen Pfeil beim Bildschirm-Symbol" }
+                li {
+                    "2.) Klicke dann rechts oben auf den kleinen Pfeil beim Bildschirm-Symbol"
+                    div { class: "browser-icon-container", AndroidInstallIcon {} }
+                }
             }
         }
     }

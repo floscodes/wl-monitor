@@ -6,3 +6,5 @@ pub mod browsers;
 pub mod clock;
 pub mod train;
 pub use clock::*;
+pub mod android_install;
+pub use android_install::*;
