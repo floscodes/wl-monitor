@@ -49,9 +49,12 @@ fn App() -> Element {
     });
     use_future(move || async move { is_android.set(pwa::android::is_android().await) });
     use_future(move || async move { is_chrome.set(pwa::android::is_chrome().await) });
-    use_future(move || async move {
+
+    if !*is_mobile_device.read() && cfg!(not(debug_assertions)) {
+         use_future(move || async move {
         pwa::service_worker::run().await;
     });
+    }
 
     let pwa_client = use_memo(move || {
         let mut client = pwa::welcome_screen::Client::new();
@@ -87,7 +90,12 @@ fn App() -> Element {
         document::Meta { name: "theme-color", content: "#8f2e1d" }
         document::Meta { name: "apple-mobile-web-app-title", content: "WL-Monitor" }
 
-        document::Link { rel: "manifest", href: pwa::manifest::generate_manifest_href() }
+        if !*is_mobile_device.read() && cfg!(not(debug_assertions)) {
+            document::Link {
+                rel: "manifest",
+                href: pwa::manifest::generate_manifest_href(),
+            }
+        }
         document::Link { rel: "stylesheet", href: TAILWIND_CSS }
         document::Link { rel: "stylesheet", href: DX_COMPONENTS }
         document::Link { rel: "stylesheet", href: BASE }
