@@ -25,8 +25,20 @@ pub fn trim_station_name(station_name: String) -> String {
 pub fn calculate_countdown(server_time: &str, departures: Value) -> Vec<String> {
     let mut countdown = vec![];
             if let Some(departures) = departures.as_array() {
+
                 for departure in departures {
-                    if let Value::String(estimated_time) = departure["estimatedAt"].clone() {
+
+                    let estimated_time = match departure["estimatedAt"].clone() {
+                        Value::String(estimated_time) => Some(estimated_time), 
+                        _ => {
+                            match departure["plannedAt"].clone() {
+                                Value::String(estimated_time) => Some(estimated_time),
+                                _ => None,
+                            }
+                        },
+                    };
+
+                    if let Some(estimated_time) = estimated_time {
                         if let Ok(estimated_departure_timestamp) = OffsetDateTime::parse(
                             &estimated_time,
                             &time::format_description::well_known::Rfc3339,
