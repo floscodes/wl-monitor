@@ -119,7 +119,7 @@ fn App() -> Element {
 
 #[component]
 fn Base() -> Element {
-    let monitor_data =
+    let mut monitor_data =
         use_signal(|| LocalStorage::get("persistent_monitor_data").unwrap_or(MonitorData::new()));
     let station_cache = use_signal(|| {
         LocalStorage::get("persistent_station_cache").unwrap_or(Vec::<StationDataSet>::new())
@@ -127,13 +127,14 @@ fn Base() -> Element {
     let monitor_loading = use_signal(|| false);
     let select_field_visibility = use_signal(|| String::from("hidden"));
 
-    use_future(move || {
-        let mut monitor_data = monitor_data.clone();
+    use_resource(move || {
         async move {
             let mut sleep_time: u64 = 12;
             loop {
+                let monitor_data_len = monitor_data.read().data.len();
+                let monitor_is_loading = monitor_loading.read();
                 sleep(Duration::from_secs(sleep_time)).await;
-                if !monitor_data.read().is_empty() && !*monitor_loading.read() {
+                if !monitor_data_len == 0 && !*monitor_is_loading {
                     let vao = monitor_data.read().vao.clone();
                     let new_monitor_data = MonitorData::from_vao(vao).await;
                     if let Ok(new_monitor_data) = new_monitor_data {
